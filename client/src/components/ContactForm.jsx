@@ -309,7 +309,7 @@ const ContactForm = () => {
           </div>
 
           <p className="text-[#F2F4F8] font-bold text-lg">
-            Message saved successfully!
+            Message sent successfully!
           </p>
 
           <p className="text-[#A7AFBA] text-sm mt-1">
