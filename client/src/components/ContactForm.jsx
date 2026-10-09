@@ -11,18 +11,6 @@ import {
   AlertCircle,
 } from 'lucide-react';
 
-// =====================================================
-// API CONFIGURATION
-// =====================================================
-
-// Set VITE_API_URL in your Vercel environment variables.
-// Example: https://portfolio-1-qbv9.onrender.com
-const API_URL = (import.meta.env.VITE_API_URL || 'https://portfolio-1-qbv9.onrender.com').replace(/\/+$/, '');
-
-// =====================================================
-// EMAILJS CONFIGURATION
-// =====================================================
-
 const EMAILJS_PUBLIC_KEY = 'OMNYautZyvKsGMrB5';
 const EMAILJS_SERVICE_ID = 'service_zuy5n8q';
 const EMAILJS_TEMPLATE_ID = 'template_y5gwzlo';
@@ -36,89 +24,56 @@ const ContactForm = () => {
 
   const [status, setStatus] = useState('idle');
   const [errorMsg, setErrorMsg] = useState('');
-  const [successMessage, setSuccessMessage] = useState(
-    "I'll get back to you soon."
-  );
 
-  // ---------------------------------------------------
-  // FORM INPUT HANDLER
-  // ---------------------------------------------------
+  const [successMessage, setSuccessMessage] = useState(
+    "Thanks for reaching out. I'll get back to you soon."
+  );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((previousData) => ({
-      ...previousData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
   };
 
-  // ---------------------------------------------------
-  // ERROR HANDLER
-  // ---------------------------------------------------
-
-  const showError = (message) => {
-    setErrorMsg(message);
-    setStatus('error');
-
-    setTimeout(() => {
-      setStatus((currentStatus) =>
-        currentStatus === 'error' ? 'idle' : currentStatus
-      );
-    }, 5000);
-  };
-
-  // ---------------------------------------------------
-  // FORM SUBMISSION
-  // ---------------------------------------------------
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (status === 'sending') {
-      return;
-    }
+    if (status === 'sending') return;
 
     const name = formData.name.trim();
     const email = formData.email.trim();
     const message = formData.message.trim();
 
-    // Basic validation
+    // Validate required fields
     if (!name || !email || !message) {
-      showError('Please fill in all fields.');
+      setErrorMsg('Please fill in all fields.');
+      setStatus('error');
       return;
     }
 
+    // Validate name
     if (name.length > 100) {
-      showError('Name must not exceed 100 characters.');
+      setErrorMsg('Name cannot exceed 100 characters.');
+      setStatus('error');
       return;
     }
 
-    if (email.length > 254) {
-      showError('Email address is too long.');
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email) || email.length > 254) {
+      setErrorMsg('Please enter a valid email address.');
+      setStatus('error');
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      showError('Please enter a valid email address.');
-      return;
-    }
-
+    // Validate message
     if (message.length > 5000) {
-      showError('Message must not exceed 5000 characters.');
-      return;
-    }
-
-    // Make sure the production API URL is configured.
-    if (!API_URL) {
-      showError(
-        'Contact form is not configured. Please try again later.'
-      );
-
-      console.error(
-        'Missing VITE_API_URL. Configure it in your Vercel project settings.'
-      );
-
+      setErrorMsg('Message cannot exceed 5000 characters.');
+      setStatus('error');
       return;
     }
 
@@ -126,18 +81,13 @@ const ContactForm = () => {
     setErrorMsg('');
 
     try {
-      // ===============================================
-      // STEP 1: SAVE MESSAGE TO MONGODB THROUGH BACKEND
-      // ===============================================
-
-      const response = await fetch(`${API_URL}/api/contact`, {
+      // Step 1: Save the message using the deployed API.
+      // This assumes client/api/contact.js is deployed on Vercel.
+      const response = await fetch('/api/contact', {
         method: 'POST',
-
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
         },
-
         body: JSON.stringify({
           name,
           email,
@@ -145,93 +95,38 @@ const ContactForm = () => {
         }),
       });
 
-      // Read the response as text first.
-      // This prevents JSON parsing errors when the server
-      // returns HTML or plain text instead of JSON.
+      // Read the response safely.
       const responseText = await response.text();
 
-      let result = {};
-
-      if (responseText.trim()) {
-        try {
-          result = JSON.parse(responseText);
-        } catch {
-          console.error(
-            'Backend returned a non-JSON response:',
-            response.status,
-            responseText.slice(0, 300)
-          );
-
-          if (response.status === 404) {
-            throw new Error(
-              'Contact API not found. Please check your backend URL and route.'
-            );
-          }
-
-          if (response.status >= 500) {
-            throw new Error(
-              'The contact server encountered an error. Please try again later.'
-            );
-          }
-
-          throw new Error(
-            'The server returned an unexpected response. Please try again later.'
-          );
-        }
-      }
-
-      // Handle HTTP errors returned as valid JSON.
-      if (!response.ok) {
-        if (response.status === 400) {
-          throw new Error(
-            result.error || 'Please check your contact details.'
-          );
-        }
-
-        if (response.status === 404) {
-          throw new Error(
-            result.error || 'Contact API endpoint was not found.'
-          );
-        }
-
-        if (response.status >= 500) {
-          throw new Error(
-            result.error ||
-              'Unable to save your message. Please try again later.'
-          );
-        }
-
-        throw new Error(
-          result.error || `Request failed with status ${response.status}.`
-        );
-      }
-
-      // A successful HTTP status alone is not enough.
-      // Confirm the backend sent the expected success message.
-      if (result.message !== 'Contact message saved.') {
-        console.error('Unexpected backend success response:', result);
-
-        throw new Error(
-          'The server response could not be verified. Please contact me another way.'
-        );
-      }
-
-      // ===============================================
-      // STEP 2: SEND EMAIL NOTIFICATION THROUGH EMAILJS
-      // ===============================================
-
-      let notificationSent = false;
-
-      const formattedTime = new Date().toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      });
+      let result;
 
       try {
+        result = JSON.parse(responseText);
+      } catch {
+        throw new Error(
+          response.status === 404
+            ? 'Contact API not found. Check your Vercel API deployment.'
+            : `The server returned an invalid response (${response.status}).`
+        );
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          result.error || 'Unable to submit your message. Please try again.'
+        );
+      }
+
+      // Step 2: Send an email notification through EmailJS.
+      let emailSent = false;
+
+      try {
+        const now = new Date();
+
+        const formattedTime = now.toLocaleString('en-IN', {
+          dateStyle: 'medium',
+          timeStyle: 'short',
+        });
+
         await emailjs.send(
           EMAILJS_SERVICE_ID,
           EMAILJS_TEMPLATE_ID,
@@ -244,28 +139,26 @@ const ContactForm = () => {
             time: formattedTime,
             to_name: 'Navadeep',
           },
-          EMAILJS_PUBLIC_KEY
+          {
+            publicKey: EMAILJS_PUBLIC_KEY,
+          }
         );
 
-        notificationSent = true;
+        emailSent = true;
       } catch (emailError) {
-        // The database save has already succeeded.
-        // Do not report the entire submission as failed.
-        console.error(
-          'Message saved, but EmailJS notification failed:',
-          emailError
-        );
+        console.error('EmailJS notification failed:', emailError);
       }
 
-      // ===============================================
-      // STEP 3: SHOW SUCCESS
-      // ===============================================
-
-      setSuccessMessage(
-        notificationSent
-          ? "I'll get back to you soon."
-          : 'Your message was saved, but the email notification could not be sent.'
-      );
+      // Step 3: Show the correct result.
+      if (emailSent) {
+        setSuccessMessage(
+          "Thanks for reaching out. I'll get back to you soon."
+        );
+      } else {
+        setSuccessMessage(
+          'Your message was received and saved successfully. Email notification could not be sent, but your message has been recorded.'
+        );
+      }
 
       setFormData({
         name: '',
@@ -275,29 +168,27 @@ const ContactForm = () => {
 
       setStatus('success');
 
-      setTimeout(() => {
-        setStatus((currentStatus) =>
-          currentStatus === 'success' ? 'idle' : currentStatus
+      // Reset the form message after 5 seconds.
+      window.setTimeout(() => {
+        setStatus((current) =>
+          current === 'success' ? 'idle' : current
         );
       }, 5000);
     } catch (error) {
       console.error('Contact form submission failed:', error);
 
-      showError(
+      setErrorMsg(
         error.message ||
-          'Unable to send your message. Please try again later.'
+          'Failed to send your message. Please try again.'
       );
+
+      setStatus('error');
     }
   };
-
-  // ---------------------------------------------------
-  // UI
-  // ---------------------------------------------------
 
   return (
     <div className="contact-form-wrapper">
       {/* Success notification */}
-
       {status === 'success' && (
         <div
           className="contact-form-toast contact-form-toast--success"
@@ -319,7 +210,6 @@ const ContactForm = () => {
       )}
 
       {/* Error notification */}
-
       {status === 'error' && (
         <div
           className="contact-form-toast contact-form-toast--error"
@@ -337,13 +227,21 @@ const ContactForm = () => {
           <p className="text-[#A7AFBA] text-sm mt-1">
             {errorMsg}
           </p>
+
+          <button
+            type="button"
+            onClick={() => setStatus('idle')}
+            className="mt-3 text-sm underline"
+          >
+            Try again
+          </button>
         </div>
       )}
 
       {/* Contact form */}
-
       <form
         onSubmit={handleSubmit}
+        noValidate
         className={`contact-form ${
           status === 'success' || status === 'error'
             ? 'contact-form--hidden'
@@ -355,9 +253,11 @@ const ContactForm = () => {
         </h3>
 
         {/* Name */}
-
         <div className="contact-field-group">
-          <label htmlFor="from_name" className="contact-label">
+          <label
+            htmlFor="from_name"
+            className="contact-label"
+          >
             <User size={14} className="text-[#C8A45C]" />
             Name
           </label>
@@ -373,14 +273,15 @@ const ContactForm = () => {
             autoComplete="name"
             maxLength={100}
             required
-            disabled={status === 'sending'}
           />
         </div>
 
         {/* Email */}
-
         <div className="contact-field-group">
-          <label htmlFor="email" className="contact-label">
+          <label
+            htmlFor="email"
+            className="contact-label"
+          >
             <Mail size={14} className="text-[#C8A45C]" />
             Email
           </label>
@@ -396,15 +297,19 @@ const ContactForm = () => {
             autoComplete="email"
             maxLength={254}
             required
-            disabled={status === 'sending'}
           />
         </div>
 
         {/* Message */}
-
         <div className="contact-field-group">
-          <label htmlFor="message" className="contact-label">
-            <MessageSquare size={14} className="text-[#C8A45C]" />
+          <label
+            htmlFor="message"
+            className="contact-label"
+          >
+            <MessageSquare
+              size={14}
+              className="text-[#C8A45C]"
+            />
             Message
           </label>
 
@@ -418,12 +323,10 @@ const ContactForm = () => {
             rows={5}
             maxLength={5000}
             required
-            disabled={status === 'sending'}
           />
         </div>
 
         {/* Submit button */}
-
         <button
           type="submit"
           disabled={status === 'sending'}
@@ -431,7 +334,10 @@ const ContactForm = () => {
         >
           {status === 'sending' ? (
             <>
-              <Loader2 size={18} className="animate-spin" />
+              <Loader2
+                size={18}
+                className="animate-spin"
+              />
               Sending...
             </>
           ) : (
