@@ -554,67 +554,59 @@ function App() {
     {
       title: 'HireMind-AI',
       description: 'An AI-driven platform that evaluates candidate skills, recommends learning resources, and provides personalized interview preparation',
-      tags: ['React', 'Web App', 'Scheduling'],
-      image: '/images/interntrack.png',
-      github: 'https://github.com/projectsnavadeep/Interntrack',
-      live: 'https://internship-0sf2.onrender.com'
+      tags: ['AI interview' , 'ATS Checker', 'Job Portal' , 'Aptitude Training ' ],
+      image: '/public/hiremind-ai.png',
+      github: 'https://github.com/singh-yuvraj1/hiremind-ai-new',
+      live: 'https://hiremind-ai.vercel.app'
     },
+    
     {
-      title: 'ANTI CODE SOFTWARE SOLUTIONS PVT LIMITED',
-      description: 'A cutting-edge software startup delivering innovative digital solutions and strategic technical consulting.',
-      tags: ['React', 'Next.js', 'Enterprise Solutions'],
-      image: '/images/startup.png',
-      github: 'https://github.com/projectsnavadeep',
-      live: 'https://codenexa-ucfp.onrender.com/'
-    },
-    {
-      title: 'SVV COMPUTERS',
-      description: 'A comprehensive computer service and maintenance platform providing professional technical support.',
-      tags: ['React', 'Service Management', 'Web Design'],
-      image: '/images/client-1.png',
-      github: 'https://github.com/projectsnavadeep',
-      live: 'https://svvcomputers.onrender.com/'
-    },
-    {
-      title: 'Voting Helps',
-      description: 'Online Voting System. A secure, transparent, and user-friendly platform for digital elections.',
+      title: 'TaskTitan-AI',
+      description: 'an AI-powered productivity platform featuring an intelligent assistant (Kai AI) for natural-language task management, personalized planning, task prioritization, deadline-rescue mode, and AI-driven productivity coaching.',
       tags: ['Flask', 'Supabase', 'Security'],
-      image: '/images/voting-system.png',
-      github: 'https://github.com/projectsnavadeep/Voting-System',
-      live: 'https://secure-voting-system-533a.onrender.com/'
+      image: '/public/task-titan.png',
+      github: 'https://github.com/singh-yuvraj1/TaskTitan_AI',
+      live: 'https://task-titan-ai.vercel.app'
     },
     {
-      title: 'Safe Walk',
-      description: 'Women Safe Live Tracker. Real-time location tracking and emergency alerts for personal safety.',
+      title: 'Hungry Bites ',
+      description: 'Transform any valid, reachable URL into a customizable QR code in seconds. Generate, personalize, and download with ease.',
       tags: ['React', 'Geofencing', 'Live Tracking'],
-      image: '/images/safe-walk.png',
+      image: '/public/hungry_bites.png',
       github: 'https://github.com/deepznavzz/safewalk',
       live: 'https://safewalk-y87y.onrender.com/'
     },
     {
-      title: 'Report Generator',
+      title: 'Ai attendance System',
       description: 'Turn data into polished PDF reports in seconds. A powerful tool for generating professional reports from structured data.',
       tags: ['React', 'Node.js', 'PDF'],
-      image: '/images/report-generator.jpg',
+      image: '/public/ai-attend.png',
       github: 'https://github.com/projectsnavadeep/reportgenerator.in',
       live: 'https://reportgenerator.in'
     },
     {
-      title: 'Digital Time Capsule',
+      title: 'Code Studio',
       description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
       tags: ['Firebase', 'React', 'UX'],
-      image: '/images/time-capsule.jpg',
+      image: '/public/code_studio.png',
       github: 'https://github.com/deepznavzz/timecapsule',
       live: 'https://digital-time-capsule-ztsp.onrender.com'
     },
-    {
-      title: 'Resume Builder',
-      description: 'A minimal, export-ready resume studio. Create professional resumes with beautiful templates and export to PDF.',
-      tags: ['React', 'PWA', 'PDF'],
-      image: '/images/resume-builder.jpg',
-      github: 'https://github.com/projectsnavadeep/professional-resume-builder',
-      live: 'https://projectsnavadeep.github.io/professional-resume-builder/'
-    }
+   {
+      title: 'Qr Maker',
+      description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
+      tags: ['Firebase', 'React', 'UX'],
+      image: '/public/qr-maker.png',
+      github: 'https://github.com/deepznavzz/timecapsule',
+      live: 'https://digital-time-capsule-ztsp.onrender.com'
+    }, {
+      title: 'Suduko Lab',
+      description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
+      tags: ['Firebase', 'React', 'UX'],
+      image: '/public/s-lab.png',
+      github: 'https://github.com/deepznavzz/timecapsule',
+      live: 'https://digital-time-capsule-ztsp.onrender.com'
+    },
   ];
 
   return (
@@ -815,7 +807,7 @@ function App() {
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               <div className="about-image image-gold-tint rounded-2xl overflow-hidden aspect-square sm:aspect-[4/5] md:aspect-[3/4] lg:aspect-[2/3] w-full shadow-lg shadow-black/30">
                 <img
-                  src="/images/about-potrait.png"
+                  src="/public/edityuv.jpg"
                   alt="About portrait"
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out"
                 />
@@ -1003,9 +995,9 @@ function App() {
                 </p>
               </div>
 
-              <div className="testimonial-image image-gold-tint rounded-xl overflow-hidden h-[40vh] lg:h-[60vh]">
+              <div className="testimonial-image image-gold-tint rounded-xl overflow-hidden h-[40vh] lg:h-[50vh]">
                 <img
-                  src="/images/testimonials-photo.jpg"
+                  src="/public/testimonial.png"
                   alt="Testimonials"
                   className="w-full h-full object-cover"
                 />
@@ -1035,13 +1027,7 @@ function App() {
                     <Mail size={16} />
                     Email Me
                   </a>
-                  <button
-                    onClick={copyEmail}
-                    className="btn-secondary flex items-center gap-2"
-                  >
-                    {copied ? <Check size={16} /> : <Copy size={16} />}
-                    {copied ? 'Copied!' : 'Copy Email'}
-                  </button>
+                  
                 </div>
               </div>
 
