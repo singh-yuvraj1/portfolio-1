@@ -21,6 +21,7 @@ import {
   Layers
 } from 'lucide-react';
 import ContactForm from './components/ContactForm';
+import CertificationsSection from './components/CertificationsSection';
 import './App.css';
 
 // Production-safe image asset imports
@@ -136,7 +137,7 @@ function App() {
   const workRef = useRef(null);
   const aboutRef = useRef(null);
   const techStackRef = useRef(null);
-  const processRef = useRef(null);
+  const certificationsRef = useRef(null);
   const testimonialsRef = useRef(null);
   const contactRef = useRef(null);
   const glitterRef = useRef(null);
@@ -432,42 +433,6 @@ function App() {
     return () => ctx.revert();
   }, []);
 
-  // Process section animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.process-heading',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1,
-          scrollTrigger: {
-            trigger: processRef.current,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 0.7
-          }
-        }
-      );
-
-      gsap.utils.toArray('.process-card-anim').forEach((card, i) => {
-        gsap.fromTo(card,
-          { y: 60, opacity: 0, scale: 0.96 },
-          {
-            y: 0, opacity: 1, scale: 1, duration: 1,
-            delay: i * 0.08,
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 92%',
-              end: 'top 60%',
-              scrub: 0.7
-            }
-          }
-        );
-      });
-    }, processRef);
-
-    return () => ctx.revert();
-  }, []);
-
 
 
   // Testimonials section animations
@@ -652,7 +617,7 @@ function App() {
             {[
               { label: 'Work', ref: workRef },
               { label: 'About', ref: aboutRef },
-              { label: 'Process', ref: processRef },
+              { label: 'Certifications', ref: certificationsRef },
               { label: 'Contact', ref: contactRef }
             ].map((item) => (
               <button
@@ -688,7 +653,7 @@ function App() {
           {[
             { label: 'Work', ref: workRef },
             { label: 'About', ref: aboutRef },
-            { label: 'Process', ref: processRef },
+            { label: 'Certifications', ref: certificationsRef },
             { label: 'Contact', ref: contactRef }
           ].map((item, i) => (
             <button
@@ -939,48 +904,8 @@ function App() {
           </div>
         </section>
 
-        <section ref={processRef} className="relative w-full min-h-screen py-24 z-40 bg-[#0B0C0F]">
-          <div className="px-[6vw]">
-            <div className="process-heading mb-16">
-              <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase">Process</span>
-              <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-4">
-                How I turn ideas into shipped work.
-              </h2>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                {
-                  number: '01',
-                  title: 'Discover',
-                  description: 'Define the problem, the user, and the constraints. No guessing.',
-                  icon: <Globe size={24} />
-                },
-                {
-                  number: '02',
-                  title: 'Design',
-                  description: 'Wireframes to high-fidelity. Fast iteration, clear feedback loops.',
-                  icon: <Zap size={24} />
-                },
-                {
-                  number: '03',
-                  title: 'Deliver',
-                  description: 'Clean codebase, real performance, and a smooth handoff.',
-                  icon: <Code2 size={24} />
-                }
-              ].map((step, index) => (
-                <div key={index} className="process-card-anim process-card">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="font-mono text-2xl text-[#C8A45C]">{step.number}</span>
-                    <div className="text-[#C8A45C]">{step.icon}</div>
-                  </div>
-                  <h3 className="text-xl font-bold text-[#F2F4F8] mb-2">{step.title}</h3>
-                  <p className="text-[#A7AFBA] text-sm leading-relaxed">{step.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Section 4: Certifications & Competitions */}
+        <CertificationsSection sectionRef={certificationsRef} />
 
 
 
