@@ -23,6 +23,18 @@ import {
 import ContactForm from './components/ContactForm';
 import './App.css';
 
+// Production-safe image asset imports
+import hiremindImg from './assets/hiremind-ai.png';
+import taskTitanImg from './assets/task-titan.png';
+import hungryBitesImg from './assets/hungry_bites.png';
+import aiAttendImg from './assets/ai-attend.png';
+import codeStudioImg from './assets/code_studio.png';
+import qrMakerImg from './assets/qr-maker.png';
+import sLabImg from './assets/s-lab.png';
+import heroBgImg from './assets/hero-bg.jpg';
+import editYuvImg from './assets/edityuv.jpg';
+import testimonialImg from './assets/testimonial.png';
+
 gsap.registerPlugin(ScrollTrigger);
 
 
@@ -70,7 +82,7 @@ const ProjectCard = ({ project }) => {
           <img
             src={project.image}
             alt={project.title}
-            className="w-full h-48 lg:h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
+            className="w-full h-48 lg:h-full object-cover transition-transform duration-1200 ease-smooth-out group-hover:scale-110"
           />
         </div>
         <div className="lg:w-3/5 p-6 lg:p-8 flex flex-col justify-between">
@@ -134,7 +146,7 @@ function App() {
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('projects.navadeep@gmail.com');
+    navigator.clipboard.writeText('yuvraj.singh.95928@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -554,25 +566,24 @@ function App() {
     {
       title: 'HireMind-AI',
       description: 'An AI-driven platform that evaluates candidate skills, recommends learning resources, and provides personalized interview preparation',
-      tags: ['AI interview' , 'ATS Checker', 'Job Portal' , 'Aptitude Training ' ],
-      image: '/public/hiremind-ai.png',
+      tags: ['AI interview', 'ATS Checker', 'Job Portal', 'Aptitude Training'],
+      image: hiremindImg,
       github: 'https://github.com/singh-yuvraj1/hiremind-ai-new',
       live: 'https://hiremind-ai.vercel.app'
     },
-    
     {
       title: 'TaskTitan-AI',
       description: 'an AI-powered productivity platform featuring an intelligent assistant (Kai AI) for natural-language task management, personalized planning, task prioritization, deadline-rescue mode, and AI-driven productivity coaching.',
       tags: ['Flask', 'Supabase', 'Security'],
-      image: '/public/task-titan.png',
+      image: taskTitanImg,
       github: 'https://github.com/singh-yuvraj1/TaskTitan_AI',
       live: 'https://task-titan-ai.vercel.app'
     },
     {
-      title: 'Hungry Bites ',
+      title: 'Hungry Bites',
       description: 'Transform any valid, reachable URL into a customizable QR code in seconds. Generate, personalize, and download with ease.',
       tags: ['React', 'Geofencing', 'Live Tracking'],
-      image: '/public/hungry_bites.png',
+      image: hungryBitesImg,
       github: 'https://github.com/deepznavzz/safewalk',
       live: 'https://safewalk-y87y.onrender.com/'
     },
@@ -580,7 +591,7 @@ function App() {
       title: 'Ai attendance System',
       description: 'Turn data into polished PDF reports in seconds. A powerful tool for generating professional reports from structured data.',
       tags: ['React', 'Node.js', 'PDF'],
-      image: '/public/ai-attend.png',
+      image: aiAttendImg,
       github: 'https://github.com/projectsnavadeep/reportgenerator.in',
       live: 'https://reportgenerator.in'
     },
@@ -588,22 +599,23 @@ function App() {
       title: 'Code Studio',
       description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
       tags: ['Firebase', 'React', 'UX'],
-      image: '/public/code_studio.png',
+      image: codeStudioImg,
       github: 'https://github.com/deepznavzz/timecapsule',
       live: 'https://digital-time-capsule-ztsp.onrender.com'
     },
-   {
+    {
       title: 'Qr Maker',
       description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
       tags: ['Firebase', 'React', 'UX'],
-      image: '/public/qr-maker.png',
+      image: qrMakerImg,
       github: 'https://github.com/deepznavzz/timecapsule',
       live: 'https://digital-time-capsule-ztsp.onrender.com'
-    }, {
+    },
+    {
       title: 'Suduko Lab',
       description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
       tags: ['Firebase', 'React', 'UX'],
-      image: '/public/s-lab.png',
+      image: sLabImg,
       github: 'https://github.com/deepznavzz/timecapsule',
       live: 'https://digital-time-capsule-ztsp.onrender.com'
     },
@@ -613,7 +625,7 @@ function App() {
     <>
       {/* Figma-style Minimal Preloader */}
       <div
-        className={`fixed inset-0 z-[9999] bg-[#0B0C0F] flex flex-col items-center justify-center transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] ${isLoaded ? '-translate-y-full' : 'translate-y-0'
+        className={`fixed inset-0 z-[9999] bg-[#0B0C0F] flex flex-col items-center justify-center transition-transform duration-1200 ease-smooth-out ${isLoaded ? '-translate-y-full' : 'translate-y-0'
           }`}
       >
         <div className="overflow-hidden">
@@ -689,7 +701,7 @@ function App() {
             </button>
           ))}
           <a
-            href="https://drive.google.com/file/d/1uYP4oG0wECtcAfMej1FFGQHrTrqD1PkY/view?usp=drivesdkesume.pdf"
+            href="https://drive.google.com/file/d/1uYP4oG0wECtcAfMej1FFGQHrTrqD1PkY/view?usp=drivesdk"
             target="_blank"
             rel="noopener noreferrer"
             className="font-mono text-lg tracking-[0.18em] text-[#C8A45C] hover:text-[#D4B76A] transition-all duration-300"
@@ -704,7 +716,7 @@ function App() {
           <div className="absolute inset-0 hero-bg">
             <div className="absolute inset-0 image-gold-tint">
               <img
-                src="/images/hero-bg.jpg"
+                src={heroBgImg}
                 alt="Hero background"
                 className="w-full h-full object-cover"
               />
@@ -744,7 +756,7 @@ function App() {
                 View Resume
               </a>
               <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=projects.navadeep@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=yuvraj.singh.95928@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary flex items-center gap-2"
@@ -807,7 +819,7 @@ function App() {
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               <div className="about-image image-gold-tint rounded-2xl overflow-hidden aspect-square sm:aspect-[4/5] md:aspect-[3/4] lg:aspect-[2/3] w-full shadow-lg shadow-black/30">
                 <img
-                  src="/public/edityuv.jpg"
+                  src={editYuvImg}
                   alt="About portrait"
                   className="w-full h-full object-cover object-center transition-transform duration-700 ease-out"
                 />
@@ -997,7 +1009,7 @@ function App() {
 
               <div className="testimonial-image image-gold-tint rounded-xl overflow-hidden h-[40vh] lg:h-[50vh]">
                 <img
-                  src="/public/testimonial.png"
+                  src={testimonialImg}
                   alt="Testimonials"
                   className="w-full h-full object-cover"
                 />
