@@ -205,11 +205,54 @@
   .quote-mark {
     @apply text-4xl text-[#C8A45C] font-serif leading-none;
   }
+
+  /* Modern Skipper / Watermelon UI styles */
+  .mask-gradient-x {
+    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .glow-border {
+    position: relative;
+  }
+
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(200, 164, 92, 0.4), transparent 50%, rgba(200, 164, 92, 0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .shimmer-button {
+    background-size: 200% auto;
+    background-image: linear-gradient(
+      90deg,
+      #C8A45C 0%,
+      #F5DE9C 25%,
+      #C8A45C 50%,
+      #D8B76E 75%,
+      #C8A45C 100%
+    );
+  }
+
+  .ambient-glow-card {
+    position: relative;
+    background: radial-gradient(circle at 50% 0%, rgba(200, 164, 92, 0.08), transparent 70%),
+                rgba(17, 20, 26, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(242, 244, 248, 0.1);
+  }
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -217,8 +260,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2d35;
-  border-radius: 4px;
+  background: rgba(200, 164, 92, 0.25);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -227,6 +270,6 @@
 
 /* Selection */
 ::selection {
-  background: rgba(200, 164, 92, 0.3);
-  color: #F2F4F8;
+  background: rgba(200, 164, 92, 0.35);
+  color: #FFFFFF;
 }
