@@ -1,0 +1,12 @@
+{
+  "name": "yuvraj-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfolio of Yuvraj Singh - Creative Full-Stack Developer",
+  "scripts": {
+    "dev": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "preview": "npm --prefix client run preview",
+    "lint": "npm --prefix client run lint"
+  }
+}
