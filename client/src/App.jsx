@@ -22,6 +22,8 @@ import {
 } from 'lucide-react';
 import ContactForm from './components/ContactForm';
 import CertificationsSection from './components/CertificationsSection';
+import TechStackSection from './components/TechStackSection';
+import BadgesShowcaseSection from './components/BadgesShowcaseSection';
 import './App.css';
 
 // Production-safe image asset imports
@@ -34,7 +36,6 @@ import qrMakerImg from './assets/qr-maker.png';
 import sLabImg from './assets/s-lab.png';
 import heroBgImg from './assets/hero-bg.jpg';
 import editYuvImg from './assets/edityuv.jpg';
-import testimonialImg from './assets/testimonial.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -397,89 +398,7 @@ function App() {
     return () => ctx.revert();
   }, []);
 
-  // Tech Stack section animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.tech-stack-heading',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1,
-          scrollTrigger: {
-            trigger: techStackRef.current,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 0.7
-          }
-        }
-      );
-
-      gsap.utils.toArray('.tech-stack-group').forEach((group, i) => {
-        gsap.fromTo(group,
-          { y: 60, opacity: 0 },
-          {
-            y: 0, opacity: 1, duration: 1,
-            delay: i * 0.1,
-            scrollTrigger: {
-              trigger: group,
-              start: 'top 90%',
-              end: 'top 60%',
-              scrub: 0.7
-            }
-          }
-        );
-      });
-    }, techStackRef);
-
-    return () => ctx.revert();
-  }, []);
-
-
-
-  // Testimonials section animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.testimonial-quote',
-        { x: -60, opacity: 0 },
-        {
-          x: 0, opacity: 1, duration: 1.2,
-          scrollTrigger: {
-            trigger: testimonialsRef.current,
-            start: 'top 85%',
-            end: 'top 35%',
-            scrub: 0.8
-          }
-        }
-      );
-
-      gsap.fromTo('.testimonial-image',
-        { x: 60, opacity: 0, scale: 0.97 },
-        {
-          x: 0, opacity: 1, scale: 1, duration: 1.2,
-          scrollTrigger: {
-            trigger: testimonialsRef.current,
-            start: 'top 80%',
-            end: 'top 30%',
-            scrub: 0.8
-          }
-        }
-      );
-
-      gsap.fromTo('.attribution-bar',
-        { scaleX: 0 },
-        {
-          scaleX: 1, duration: 1,
-          scrollTrigger: {
-            trigger: testimonialsRef.current,
-            start: 'top 55%',
-            end: 'top 35%',
-            scrub: 0.6
-          }
-        }
-      );
-    }, testimonialsRef);
-
-    return () => ctx.revert();
-  }, []);
+  // Tech Stack & Badges sections handle their own entrance & interactive animations cleanly
 
   // Contact section animations
   useEffect(() => {
@@ -851,97 +770,15 @@ function App() {
         </section>
 
         {/* Section 3.5: Tech Stack */}
-        <section ref={techStackRef} className="relative w-full py-24 z-[35] bg-[#0B0C0F]">
-          <div className="px-[6vw]">
-            <div className="tech-stack-heading mb-16">
-              <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase">Tech Stack</span>
-              <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-4">
-                Tools I work with.
-              </h2>
-            </div>
-
-            <div className="space-y-10">
-              {[
-                {
-                  category: 'Programming Languages',
-                  skills: ['Python', 'JavaScript', 'Java', 'C++']
-                },
-                {
-                  category: 'Frontend',
-                  skills: ['React', 'Tailwind CSS', 'GSAP', 'HTML/CSS']
-                },
-                {
-                  category: 'Backend',
-                  skills: ['Node.js', 'Flask', 'Express', 'REST APIs']
-                },
-                {
-                  category: 'Tools & Platforms',
-                  skills: ['Git', 'Figma', 'Vite', 'Vercel', 'Render', 'GitHub Actions']
-                },
-                {
-                  category: 'Currently Learning',
-                  skills: ['Rust', 'Three.js', 'WebGL', 'PostgreSQL', 'Next.js',]
-                }
-              ].map((group, groupIndex) => (
-                <div key={groupIndex} className="tech-stack-group">
-                  <h3 className="font-mono text-xs tracking-[0.18em] text-[#A7AFBA] uppercase mb-4 flex items-center gap-2">
-                    <Layers size={14} className="text-[#C8A45C]" />
-                    {group.category}
-                  </h3>
-                  <div className="flex flex-wrap gap-3">
-                    {group.skills.map((skill, i) => (
-                      <span
-                        key={i}
-                        className="skill-chip px-4 py-2 text-sm font-mono text-[#F2F4F8] rounded-full border border-[rgba(242,244,248,0.12)] bg-[rgba(20,23,28,0.6)] hover:border-[#C8A45C] hover:text-[#C8A45C] hover:bg-[rgba(200,164,92,0.08)] transition-all duration-300 cursor-default"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <TechStackSection sectionRef={techStackRef} />
 
         {/* Section 4: Certifications & Competitions */}
         <CertificationsSection sectionRef={certificationsRef} />
 
 
 
-        {/* Section 6: Testimonials */}
-        <section ref={testimonialsRef} className="relative w-full min-h-screen py-24 z-[60] bg-[#0B0C0F]">
-          <div className="px-[6vw]">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="testimonial-quote">
-                <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase">Testimonials</span>
-
-                <div className="quote-mark mt-6">"</div>
-
-                <blockquote className="text-xl md:text-2xl text-[#F2F4F8] leading-relaxed mt-4">
-                  Where others see complexity, I see something waiting to be engineered.
-                </blockquote>
-
-                <div className="attribution-bar w-10 h-[3px] bg-[#C8A45C] mt-6 origin-left" />
-
-                <p className="text-sm text-[#A7AFBA] mt-4">— Collaborator, Product Team</p>
-
-                <p className="text-xs text-[#A7AFBA] mt-8 flex items-center gap-2">
-                  <Sparkles size={14} className="text-[#C8A45C]" />
-                  Featured on product showcases and dev communities.
-                </p>
-              </div>
-
-              <div className="testimonial-image image-gold-tint rounded-xl overflow-hidden h-[40vh] lg:h-[50vh]">
-                <img
-                  src={testimonialImg}
-                  alt="Testimonials"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Section 6: Badges & Milestones Accordion Showcase */}
+        <BadgesShowcaseSection sectionRef={testimonialsRef} />
 
         {/* Section 7: Contact / Footer */}
         <section ref={contactRef} className="relative w-full min-h-screen py-24 z-[70] bg-[#14171C]">

@@ -1,7 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Trophy,
   Award,
@@ -15,12 +13,11 @@ import {
   ShieldCheck,
   Calendar,
   Building,
-  Layers,
   ChevronRight,
-  Filter
+  ChevronLeft,
+  Copy,
+  Check
 } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 // Category data with 4 certificates each (total 20 certificates)
 const CERTIFICATION_CATEGORIES = [
@@ -31,7 +28,8 @@ const CERTIFICATION_CATEGORIES = [
     icon: Trophy,
     highlight: '5 Major Hackathons',
     color: '#E5C37A',
-    description: 'Rapid prototyping, high-pressure problem solving, and building AI/full-stack MVPs under 24-48 hour deadlines.',
+    description:
+      'Rapid prototyping, high-pressure problem solving, and building AI/full-stack MVPs under 24-48 hour deadlines.',
     certificates: [
       {
         id: 'hack-sih',
@@ -41,7 +39,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'SIH-2024-NAT-7749',
         credentialUrl: 'https://www.sih.gov.in/',
         type: 'National Finalist',
-        description: 'Selected as top finalist in nation-wide innovation hackathon for building an AI-powered automated attendance and anomaly detection platform.',
+        description:
+          'Selected as top finalist in nation-wide innovation hackathon for building an AI-powered automated attendance and anomaly detection platform.',
         skills: ['AI / Computer Vision', 'FastAPI', 'React', 'Problem Solving']
       },
       {
@@ -52,7 +51,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'INX-AI-9921-RUNNERUP',
         credentialUrl: 'https://devpost.com',
         type: '1st Runner Up',
-        description: 'Developed TaskTitan-AI, an intelligent productivity coach with deadline-rescue mode, finishing 2nd out of 140+ participating engineering teams.',
+        description:
+          'Developed TaskTitan-AI, an intelligent productivity coach with deadline-rescue mode, finishing 2nd out of 140+ participating engineering teams.',
         skills: ['Generative AI', 'Supabase', 'Python', 'System Architecture']
       },
       {
@@ -63,7 +63,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'DEVPOST-GLB-5531',
         credentialUrl: 'https://devpost.com',
         type: 'Top 10 Global',
-        description: 'Engineered HireMind-AI, an intelligent ATS & interview simulation platform that prepares students for modern engineering hiring loops.',
+        description:
+          'Engineered HireMind-AI, an intelligent ATS & interview simulation platform that prepares students for modern engineering hiring loops.',
         skills: ['NLP', 'React', 'Node.js', 'Tailwind CSS']
       },
       {
@@ -74,7 +75,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'DSC-BLITZ-2023-01',
         credentialUrl: 'https://github.com/singh-yuvraj1',
         type: 'Best UI/UX Award',
-        description: 'Awarded for extraordinary frontend aesthetics, smooth GSAP micro-interactions, and accessible UI in high-speed product sprint.',
+        description:
+          'Awarded for extraordinary frontend aesthetics, smooth GSAP micro-interactions, and accessible UI in high-speed product sprint.',
         skills: ['GSAP Animations', 'UI/UX Design', 'Full-Stack Web']
       }
     ]
@@ -86,7 +88,8 @@ const CERTIFICATION_CATEGORIES = [
     icon: Award,
     highlight: 'Top Collegiate Finishes',
     color: '#C8A45C',
-    description: 'Technical fest championships, coding speed bowls, algorithmic showdowns, and project innovation expos.',
+    description:
+      'Technical fest championships, coding speed bowls, algorithmic showdowns, and project innovation expos.',
     certificates: [
       {
         id: 'univ-coding-champ',
@@ -96,7 +99,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'RIMT-CSE-CHAMP-2024',
         credentialUrl: 'https://rimt.ac.in/',
         type: 'Gold Medalist',
-        description: 'Clinched 1st place in university-wide annual coding contest featuring rigorous algorithmic problem solving and time-constrained competitive programming.',
+        description:
+          'Clinched 1st place in university-wide annual coding contest featuring rigorous algorithmic problem solving and time-constrained competitive programming.',
         skills: ['C++', 'Data Structures', 'Algorithms', 'Optimization']
       },
       {
@@ -107,7 +111,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'TECHFEST-EXPO-1092',
         credentialUrl: 'https://rimt.ac.in/',
         type: 'Winner - Best Engineering Project',
-        description: 'Showcased real-world AI-driven attendance and analytics system to industry judges and academic leads.',
+        description:
+          'Showcased real-world AI-driven attendance and analytics system to industry judges and academic leads.',
         skills: ['Full-Stack Engineering', 'Live Demonstration', 'Product Management']
       },
       {
@@ -118,7 +123,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'PECL-DSA-BOWL-441',
         credentialUrl: 'https://rimt.ac.in/',
         type: 'Rank #2 Overall',
-        description: 'Competed among top 50 university coders in speed graph algorithms, dynamic programming, and memory-constrained puzzles.',
+        description:
+          'Competed among top 50 university coders in speed graph algorithms, dynamic programming, and memory-constrained puzzles.',
         skills: ['Dynamic Programming', 'Graph Theory', 'Time Complexity']
       },
       {
@@ -129,7 +135,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'RIMT-DEAN-HONORS-2023',
         credentialUrl: 'https://rimt.ac.in/',
         type: "Dean's Honor Roll",
-        description: 'Awarded for outstanding academic consistency, active technical mentorship, and high GPA in B.Tech CSE core courses.',
+        description:
+          'Awarded for outstanding academic consistency, active technical mentorship, and high GPA in B.Tech CSE core courses.',
         skills: ['Computer Science Fundamentals', 'DBMS', 'Operating Systems']
       }
     ]
@@ -141,7 +148,8 @@ const CERTIFICATION_CATEGORIES = [
     icon: Code2,
     highlight: 'Institute Rank #1',
     color: '#34D399',
-    description: 'Extensive algorithmic practice, data structure mastery, and multi-month continuous problem solving streaks.',
+    description:
+      'Extensive algorithmic practice, data structure mastery, and multi-month continuous problem solving streaks.',
     certificates: [
       {
         id: 'gfg-rank1',
@@ -151,7 +159,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'GFG-INST-RIMT-R1',
         credentialUrl: 'https://www.geeksforgeeks.org/',
         type: 'Campus Leader Badge',
-        description: 'Achieved #1 ranking across the entire university campus on GeeksforGeeks for overall coding score, contest performances, and problems solved.',
+        description:
+          'Achieved #1 ranking across the entire university campus on GeeksforGeeks for overall coding score, contest performances, and problems solved.',
         skills: ['Algorithms', 'Data Structures', 'Competitive Coding']
       },
       {
@@ -162,7 +171,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'GFG-160-STREAK-MASTER',
         credentialUrl: 'https://www.geeksforgeeks.org/',
         type: 'Master Certification',
-        description: 'Completed 160 consecutive days of advanced problem solving covering arrays, trees, dynamic programming, heaps, and graph algorithms.',
+        description:
+          'Completed 160 consecutive days of advanced problem solving covering arrays, trees, dynamic programming, heaps, and graph algorithms.',
         skills: ['Tree Traversal', 'Recursion & Backtracking', 'Greedy Algorithms']
       },
       {
@@ -173,7 +183,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'LC-SOLVER-50D-GOLD',
         credentialUrl: 'https://leetcode.com',
         type: 'Consistent Solver',
-        description: 'Consistently tackled Medium/Hard algorithmic challenges, optimizing time and space complexity across high-frequency interview questions.',
+        description:
+          'Consistently tackled Medium/Hard algorithmic challenges, optimizing time and space complexity across high-frequency interview questions.',
         skills: ['Bit Manipulation', 'Binary Search', 'Sliding Window', 'Two Pointers']
       },
       {
@@ -184,7 +195,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'HR-PS-GOLD-5STAR',
         credentialUrl: 'https://www.hackerrank.com',
         type: '5-Star Gold Badge',
-        description: 'Earned the highest 5-star gold proficiency badge in core problem solving and algorithm analysis on HackerRank.',
+        description:
+          'Earned the highest 5-star gold proficiency badge in core problem solving and algorithm analysis on HackerRank.',
         skills: ['Problem Solving', 'Data Structure Design', 'Complexity Analysis']
       }
     ]
@@ -196,7 +208,8 @@ const CERTIFICATION_CATEGORIES = [
     icon: Cloud,
     highlight: 'Production Standards',
     color: '#60A5FA',
-    description: 'Enterprise web architecture, responsive modern design systems, REST API integration, and cloud deployment pipelines.',
+    description:
+      'Enterprise web architecture, responsive modern design systems, REST API integration, and cloud deployment pipelines.',
     certificates: [
       {
         id: 'cloud-aws',
@@ -206,7 +219,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'AWS-FOUND-TR-8820',
         credentialUrl: 'https://aws.amazon.com/certification/',
         type: 'Cloud Verified',
-        description: 'Comprehensive validation of AWS core cloud services (EC2, S3, RDS, Lambda), security IAM, VPC networking, and cloud economics.',
+        description:
+          'Comprehensive validation of AWS core cloud services (EC2, S3, RDS, Lambda), security IAM, VPC networking, and cloud economics.',
         skills: ['AWS Cloud', 'Serverless', 'S3 & Storage', 'Cloud Architecture']
       },
       {
@@ -217,7 +231,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'META-FED-CERT-7729',
         credentialUrl: 'https://coursera.org',
         type: 'Professional Specialization',
-        description: 'Rigorous 9-course curriculum in modern React, JavaScript ES6+, UX principles, responsive UI systems, and unit testing.',
+        description:
+          'Rigorous 9-course curriculum in modern React, JavaScript ES6+, UX principles, responsive UI systems, and unit testing.',
         skills: ['React 18/19', 'Advanced JavaScript', 'Tailwind CSS', 'Testing']
       },
       {
@@ -228,7 +243,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'FCC-JS-ALGO-300HR',
         credentialUrl: 'https://www.freecodecamp.org',
         type: '300 Hours Verified',
-        description: 'Completed 300 hours of coursework, algorithmic labs, and 5 mandatory certification projects demonstrating production JavaScript mastery.',
+        description:
+          'Completed 300 hours of coursework, algorithmic labs, and 5 mandatory certification projects demonstrating production JavaScript mastery.',
         skills: ['Modern JavaScript', 'Functional Programming', 'DOM Manipulation']
       },
       {
@@ -239,7 +255,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'POSTMAN-API-STUDENT-EXPERT',
         credentialUrl: 'https://badgr.com',
         type: 'Certified Student Expert',
-        description: 'Proficiency in testing RESTful endpoints, environment variables, authentication headers, script automation, and API contract design.',
+        description:
+          'Proficiency in testing RESTful endpoints, environment variables, authentication headers, script automation, and API contract design.',
         skills: ['REST APIs', 'API Testing', 'Postman Collections', 'HTTP Protocols']
       }
     ]
@@ -251,7 +268,8 @@ const CERTIFICATION_CATEGORIES = [
     icon: Brain,
     highlight: 'Applied AI & Models',
     color: '#A78BFA',
-    description: 'Neural networks, generative AI pipelines, prompt engineering, and integrating intelligent LLM layers into web applications.',
+    description:
+      'Neural networks, generative AI pipelines, prompt engineering, and integrating intelligent LLM layers into web applications.',
     certificates: [
       {
         id: 'dl-ai-ml',
@@ -261,7 +279,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'DLAI-ML-STANFORD-9210',
         credentialUrl: 'https://www.deeplearning.ai/',
         type: 'Specialization Honor',
-        description: 'Taught by Andrew Ng. Covered supervised learning (linear regression, SVMs, neural networks) and unsupervised learning (clustering, anomaly detection).',
+        description:
+          'Taught by Andrew Ng. Covered supervised learning (linear regression, SVMs, neural networks) and unsupervised learning (clustering, anomaly detection).',
         skills: ['Supervised Learning', 'Neural Networks', 'Cost Optimization', 'PyTorch']
       },
       {
@@ -272,7 +291,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'GCLOUD-GENAI-SKILL-441',
         credentialUrl: 'https://cloud.google.com/training',
         type: 'Skill Badge',
-        description: 'Practical training on LLMs, attention mechanisms, transformer models, prompt framing, and responsible AI guardrails.',
+        description:
+          'Practical training on LLMs, attention mechanisms, transformer models, prompt framing, and responsible AI guardrails.',
         skills: ['Large Language Models', 'Generative AI', 'Prompt Design', 'Google Cloud']
       },
       {
@@ -283,7 +303,8 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'KAGGLE-PY-DS-CERT-832',
         credentialUrl: 'https://www.kaggle.com',
         type: 'Competency Certified',
-        description: 'Completed hands-on coding tracks in Python data manipulation, Pandas, feature engineering, and predictive modeling.',
+        description:
+          'Completed hands-on coding tracks in Python data manipulation, Pandas, feature engineering, and predictive modeling.',
         skills: ['Python', 'Pandas', 'NumPy', 'Data Analysis']
       },
       {
@@ -294,536 +315,180 @@ const CERTIFICATION_CATEGORIES = [
         credentialId: 'DLAI-PROMPT-DEV-2023',
         credentialUrl: 'https://www.deeplearning.ai/',
         type: 'Professional Credential',
-        description: 'Advanced techniques in chain-of-thought prompting, function calling, system prompt architecture, and embedding-based retrieval.',
+        description:
+          'Advanced techniques in chain-of-thought prompting, function calling, system prompt architecture, and embedding-based retrieval.',
         skills: ['Prompt Engineering', 'OpenAI APIs', 'Vector Embeddings', 'AI UX']
       }
     ]
   }
 ];
 
-// Interactive 3D Three.js WebGL Trophy/Crystal Core Component
-const ThreeAchievementCore = () => {
-  const mountRef = useRef(null);
-
-  useEffect(() => {
-    const container = mountRef.current;
-    if (!container) return;
-
-    const width = container.clientWidth || 320;
-    const height = container.clientHeight || 320;
-
-    // Scene
-    const scene = new THREE.Scene();
-
-    // Camera
-    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    camera.position.z = 4.2;
-
-    // WebGL Renderer
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance'
-    });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    // Group for combined rotations
-    const mainGroup = new THREE.Group();
-    scene.add(mainGroup);
-
-    // 1. Outer Wireframe Icosahedron (Gold Geometry)
-    const outerGeo = new THREE.IcosahedronGeometry(1.25, 0);
-    const outerMat = new THREE.MeshStandardMaterial({
-      color: 0xC8A45C,
-      wireframe: true,
-      roughness: 0.2,
-      metalness: 0.9,
-      emissive: 0x5a441e,
-      emissiveIntensity: 0.35,
-    });
-    const outerMesh = new THREE.Mesh(outerGeo, outerMat);
-    mainGroup.add(outerMesh);
-
-    // 2. Inner Golden Diamond Core (Dodecahedron)
-    const innerGeo = new THREE.DodecahedronGeometry(0.72, 0);
-    const innerMat = new THREE.MeshPhysicalMaterial({
-      color: 0xE8C87C,
-      roughness: 0.1,
-      metalness: 0.85,
-      transmission: 0.6,
-      opacity: 0.85,
-      transparent: true,
-      reflectivity: 0.9,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1
-    });
-    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-    mainGroup.add(innerMesh);
-
-    // 3. Orbiting Sparkle Ring
-    const particleCount = 75;
-    const particleGeo = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-
-    for (let i = 0; i < particleCount; i++) {
-      const radius = 1.6 + Math.random() * 0.8;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = (Math.random() - 0.5) * Math.PI;
-
-      particlePositions[i * 3] = radius * Math.cos(phi) * Math.cos(theta);
-      particlePositions[i * 3 + 1] = radius * Math.sin(phi);
-      particlePositions[i * 3 + 2] = radius * Math.cos(phi) * Math.sin(theta);
-    }
-
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-
-    const particleMat = new THREE.PointsMaterial({
-      color: 0xE5C37A,
-      size: 0.045,
-      transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending
-    });
-
-    const particles = new THREE.Points(particleGeo, particleMat);
-    mainGroup.add(particles);
-
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
-    scene.add(ambientLight);
-
-    const goldLight = new THREE.PointLight(0xC8A45C, 2.5, 10);
-    goldLight.position.set(3, 3, 3);
-    scene.add(goldLight);
-
-    const cyanLight = new THREE.PointLight(0x38BDF8, 1.2, 10);
-    cyanLight.position.set(-3, -2, -2);
-    scene.add(cyanLight);
-
-    // Mouse tracking for parallax
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
-
-    const handleMouseMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      targetX = x * 0.6;
-      targetY = y * 0.6;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    // Animation loop
-    let reqId;
-    let clock = new THREE.Clock();
-
-    const animate = () => {
-      reqId = requestAnimationFrame(animate);
-      const delta = clock.getDelta();
-
-      // Autonomous rotation
-      outerMesh.rotation.x += 0.25 * delta;
-      outerMesh.rotation.y += 0.35 * delta;
-
-      innerMesh.rotation.x -= 0.4 * delta;
-      innerMesh.rotation.y -= 0.5 * delta;
-
-      particles.rotation.y += 0.15 * delta;
-      particles.rotation.z += 0.08 * delta;
-
-      // Mouse inertia damping
-      mouseX += (targetX - mouseX) * 0.05;
-      mouseY += (targetY - mouseY) * 0.05;
-
-      mainGroup.rotation.y = mouseX;
-      mainGroup.rotation.x = -mouseY;
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    // Resize handler
-    const handleResize = () => {
-      if (!container) return;
-      const newWidth = container.clientWidth;
-      const newHeight = container.clientHeight;
-      camera.aspect = newWidth / newHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(newWidth, newHeight);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(reqId);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('resize', handleResize);
-      if (container && renderer.domElement) {
-        container.removeChild(renderer.domElement);
-      }
-      outerGeo.dispose();
-      outerMat.dispose();
-      innerGeo.dispose();
-      innerMat.dispose();
-      particleGeo.dispose();
-      particleMat.dispose();
-      renderer.dispose();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={mountRef}
-      className="w-full h-full min-h-[260px] md:min-h-[340px] flex items-center justify-center pointer-events-none"
-      aria-hidden="true"
-    />
-  );
-};
-
-// 3D Perspective Tilt Card Component for each Major Category
-const CategoryCard = ({ category, onSelectCert }) => {
-  const cardRef = useRef(null);
-  const [style, setStyle] = useState({});
-  const [isHovered, setIsHovered] = useState(false);
-  const Icon = category.icon;
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * -5;
-    const rotateY = ((x - centerX) / centerX) * 5;
-
-    setStyle({
-      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`,
-      background: `radial-gradient(circle at ${x}px ${y}px, rgba(200, 164, 92, 0.12), rgba(20, 23, 28, 0.85) 65%)`,
-      transition: 'transform 0.1s ease-out, background 0.2s ease-out'
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setStyle({
-      transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
-      background: 'rgba(20, 23, 28, 0.72)',
-      transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s ease-out'
-    });
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      className="cert-category-card relative rounded-2xl p-6 lg:p-7 border border-[rgba(242,244,248,0.12)] hover:border-[#C8A45C]/50 transition-all duration-300 flex flex-col justify-between overflow-hidden group shadow-xl shadow-black/40"
-      style={style}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Top accent light bar */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[3px] opacity-75 group-hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background: `linear-gradient(90deg, transparent, ${category.color || '#C8A45C'}, transparent)`
-        }}
-      />
-
-      {/* Subtle corner badge glow */}
-      <div
-        className="absolute -top-12 -right-12 w-28 h-28 rounded-full pointer-events-none blur-2xl transition-opacity duration-500 opacity-20 group-hover:opacity-45"
-        style={{ background: category.color || '#C8A45C' }}
-      />
-
-      <div>
-        {/* Header */}
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="w-11 h-11 rounded-xl flex items-center justify-center border transition-transform duration-300 group-hover:scale-110"
-              style={{
-                backgroundColor: 'rgba(200, 164, 92, 0.08)',
-                borderColor: 'rgba(200, 164, 92, 0.25)',
-                color: category.color || '#C8A45C'
-              }}
-            >
-              <Icon size={22} />
-            </div>
-            <div>
-              <span className="font-mono text-[11px] tracking-[0.16em] uppercase text-[#A7AFBA]">
-                {category.badge}
-              </span>
-              <h3 className="text-xl font-bold text-[#F2F4F8] leading-tight mt-0.5">
-                {category.title}
-              </h3>
-            </div>
-          </div>
-          <span className="px-2.5 py-1 rounded-full text-[11px] font-mono tracking-wider border border-[#C8A45C]/30 bg-[#C8A45C]/10 text-[#C8A45C] whitespace-nowrap">
-            {category.certificates.length} Credentials
-          </span>
-        </div>
-
-        {/* Description */}
-        <p className="text-[#A7AFBA] text-sm leading-relaxed mb-6">
-          {category.description}
-        </p>
-
-        {/* Certificate Item List inside this category */}
-        <div className="space-y-3">
-          {category.certificates.map((cert) => (
-            <button
-              key={cert.id}
-              onClick={() => onSelectCert(cert, category)}
-              className="w-full text-left p-3.5 rounded-xl border border-[rgba(242,244,248,0.08)] bg-[rgba(11,12,15,0.45)] hover:bg-[rgba(200,164,92,0.08)] hover:border-[#C8A45C]/40 transition-all duration-300 flex items-center justify-between group/cert"
-            >
-              <div className="flex items-start gap-3 min-w-0 pr-2">
-                <div className="mt-1 w-2 h-2 rounded-full bg-[#C8A45C] shrink-0 group-hover/cert:scale-125 transition-transform" />
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[#F2F4F8] group-hover/cert:text-[#C8A45C] transition-colors truncate">
-                    {cert.title}
-                  </p>
-                  <p className="text-xs text-[#A7AFBA] font-mono mt-0.5 truncate">
-                    {cert.issuer} • {cert.date}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-[rgba(242,244,248,0.06)] text-[#A7AFBA] group-hover/cert:text-[#C8A45C] group-hover/cert:bg-[#C8A45C]/10 transition-colors hidden sm:inline-block">
-                  {cert.type}
-                </span>
-                <ChevronRight size={15} className="text-[#A7AFBA] group-hover/cert:text-[#C8A45C] group-hover/cert:translate-x-0.5 transition-all" />
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Card Footer highlight */}
-      <div className="mt-6 pt-4 border-t border-[rgba(242,244,248,0.08)] flex items-center justify-between text-xs font-mono text-[#A7AFBA]">
-        <span className="flex items-center gap-1.5 text-[#C8A45C]">
-          <Sparkles size={13} />
-          {category.highlight}
-        </span>
-        <span className="text-[11px] underline underline-offset-4 text-[#A7AFBA] group-hover:text-[#F2F4F8] transition-colors">
-          Click any credential to inspect
-        </span>
-      </div>
-    </div>
-  );
+// Circular wrapped offset in [-2, -1, 0, 1, 2]
+const getRelativeOffset = (index, activeIndex, total) => {
+  let diff = index - activeIndex;
+  const half = Math.floor(total / 2);
+  if (diff > half) diff -= total;
+  if (diff < -half) diff += total;
+  return diff;
 };
 
 // Detailed Holographic Certificate Verification Modal
 const CertificateModal = ({ certificate, category, onClose }) => {
+  const [copiedId, setCopiedId] = useState(false);
+
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [onClose]);
 
   if (!certificate) return null;
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(certificate.credentialId);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 1800);
+  };
+
   return (
     <div
-      className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fadeIn"
+      className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.94, y: 16 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.94, y: 16 }}
+        transition={{ type: 'spring', damping: 28, stiffness: 360 }}
         className="relative w-full max-w-2xl card-glass rounded-2xl border border-[rgba(200,164,92,0.35)] p-6 sm:p-8 shadow-2xl shadow-black/80 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Decorative corner glows */}
-        <div className="absolute top-0 right-0 w-44 h-44 bg-[#C8A45C]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-44 h-44 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div
+          className="absolute top-0 left-0 right-0 h-[3px]"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${category?.color || '#C8A45C'}, transparent)`
+          }}
+        />
 
-        {/* Close Button */}
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 w-9 h-9 rounded-full border border-[rgba(242,244,248,0.15)] flex items-center justify-center text-[#A7AFBA] hover:text-[#F2F4F8] hover:border-[#C8A45C] bg-[rgba(11,12,15,0.6)] transition-all z-10"
           aria-label="Close modal"
+          className="absolute top-5 right-5 w-9 h-9 rounded-full border border-[rgba(242,244,248,0.12)] flex items-center justify-center text-[#A7AFBA] hover:text-[#F2F4F8] hover:border-[#C8A45C] transition-colors bg-[rgba(11,12,15,0.6)]"
         >
           <X size={18} />
         </button>
 
-        {/* Badge & Category */}
-        <div className="flex items-center gap-2 mb-3">
-          <span className="px-3 py-1 rounded-full text-xs font-mono uppercase tracking-wider bg-[#C8A45C]/15 border border-[#C8A45C]/30 text-[#C8A45C]">
-            {category?.title || 'Certification'}
+        <div className="flex flex-wrap items-center gap-3 mb-4 pr-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider bg-[rgba(200,164,92,0.15)] text-[#C8A45C] border border-[#C8A45C]/30">
+            <ShieldCheck size={14} />
+            {certificate.type}
           </span>
-          <span className="flex items-center gap-1 text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
-            <CheckCircle2 size={12} />
-            Verified Credential
+          <span className="inline-flex items-center gap-1.5 text-xs font-mono text-[#A7AFBA]">
+            <Calendar size={13} className="text-[#C8A45C]" />
+            Issued {certificate.date}
           </span>
         </div>
 
-        {/* Title */}
-        <h2 className="text-2xl sm:text-3xl font-bold text-[#F2F4F8] mt-2 leading-tight">
+        <h3 className="text-2xl sm:text-3xl font-bold text-[#F2F4F8] leading-tight">
           {certificate.title}
-        </h2>
+        </h3>
+        <div className="flex items-center gap-2 mt-2 text-sm text-[#C8A45C] font-mono">
+          <Building size={15} />
+          <span>{certificate.issuer}</span>
+        </div>
 
-        {/* Metadata Details */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-6 p-4 rounded-xl bg-[rgba(11,12,15,0.6)] border border-[rgba(242,244,248,0.08)]">
-          <div className="flex items-center gap-3">
-            <Building size={16} className="text-[#C8A45C] shrink-0" />
-            <div>
-              <p className="text-[11px] font-mono text-[#A7AFBA] uppercase">Issuer</p>
-              <p className="text-sm font-semibold text-[#F2F4F8]">{certificate.issuer}</p>
-            </div>
-          </div>
+        <p className="mt-5 text-[#A7AFBA] text-sm sm:text-base leading-relaxed">
+          {certificate.description}
+        </p>
 
-          <div className="flex items-center gap-3">
-            <Calendar size={16} className="text-[#C8A45C] shrink-0" />
-            <div>
-              <p className="text-[11px] font-mono text-[#A7AFBA] uppercase">Issue Date</p>
-              <p className="text-sm font-semibold text-[#F2F4F8]">{certificate.date}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <ShieldCheck size={16} className="text-[#C8A45C] shrink-0" />
-            <div>
-              <p className="text-[11px] font-mono text-[#A7AFBA] uppercase">Credential ID</p>
-              <p className="text-xs font-mono text-[#C8A45C] truncate max-w-[180px] sm:max-w-none">
-                {certificate.credentialId}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Trophy size={16} className="text-[#C8A45C] shrink-0" />
-            <div>
-              <p className="text-[11px] font-mono text-[#A7AFBA] uppercase">Achievement Level</p>
-              <p className="text-sm font-semibold text-[#F2F4F8]">{certificate.type}</p>
-            </div>
+        <div className="mt-6">
+          <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#A7AFBA] mb-2.5">
+            Validated Competencies
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {certificate.skills.map((skill, idx) => (
+              <span key={idx} className="tag">
+                {skill}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Description */}
-        <div className="mb-6">
-          <h4 className="text-xs font-mono uppercase tracking-[0.16em] text-[#A7AFBA] mb-2 flex items-center gap-2">
-            <Layers size={13} className="text-[#C8A45C]" />
-            Accomplishment Summary
-          </h4>
-          <p className="text-[#F2F4F8] text-sm leading-relaxed font-light">
-            {certificate.description}
-          </p>
-        </div>
+        <div className="mt-8 pt-5 border-t border-[rgba(242,244,248,0.1)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="text-left group/id"
+            title="Copy Credential ID"
+          >
+            <p className="font-mono text-[10px] uppercase tracking-widest text-[#A7AFBA]">
+              Credential Verification ID (Click to Copy)
+            </p>
+            <p className="font-mono text-xs text-[#F2F4F8] mt-0.5 inline-flex items-center gap-1.5 group-hover/id:text-[#C8A45C] transition-colors">
+              {copiedId ? (
+                <>
+                  <Check size={13} className="text-emerald-400" />
+                  <span className="text-emerald-400">Copied!</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 size={13} className="text-emerald-400" />
+                  <span>{certificate.credentialId}</span>
+                  <Copy size={12} className="opacity-60" />
+                </>
+              )}
+            </p>
+          </button>
 
-        {/* Skills Tagged */}
-        {certificate.skills && (
-          <div className="mb-6">
-            <h4 className="text-xs font-mono uppercase tracking-[0.16em] text-[#A7AFBA] mb-2.5">
-              Skills & Competencies Validated
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {certificate.skills.map((skill, idx) => (
-                <span
-                  key={idx}
-                  className="px-3 py-1 text-xs font-mono text-[#C8A45C] rounded-lg bg-[rgba(200,164,92,0.1)] border border-[rgba(200,164,92,0.22)]"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Modal Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-[rgba(242,244,248,0.1)]">
-          <p className="text-xs text-[#A7AFBA] font-mono">
-            Issued to <span className="text-[#F2F4F8] font-bold">Yuvraj Singh</span>
-          </p>
-          <div className="flex items-center gap-3">
+          {certificate.credentialUrl && (
             <a
               href={certificate.credentialUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-lg bg-[#C8A45C] text-[#0B0C0F] text-xs font-bold tracking-wide hover:bg-[#D4B76A] transition-colors flex items-center gap-2 shadow-lg shadow-[#C8A45C]/20"
+              className="btn-primary inline-flex items-center justify-center gap-2 text-xs font-mono tracking-wider"
             >
-              <span>Verify / View Online</span>
+              <span>Verify Credential</span>
               <ExternalLink size={14} />
             </a>
-            <button
-              onClick={onClose}
-              className="px-4 py-2.5 rounded-lg border border-[rgba(242,244,248,0.15)] text-[#A7AFBA] hover:text-[#F2F4F8] text-xs font-medium transition-colors"
-            >
-              Close
-            </button>
-          </div>
+          )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
 
-// Main Exported Certifications Section
-const CertificationsSection = ({ sectionRef }) => {
-  const [activeFilter, setActiveFilter] = useState('all');
+export const CertificationsSection = ({ sectionRef }) => {
+  const categories = CERTIFICATION_CATEGORIES;
+  const total = categories.length;
+
+  const [activeIndex, setActiveIndex] = useState(0);
   const [selectedCert, setSelectedCert] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const containerRef = useRef(null);
-
-  // GSAP ScrollTrigger Entrance Animation
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading reveal
-      gsap.fromTo('.cert-heading',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 0.7
-          }
-        }
-      );
-
-      // Stat counters reveal
-      gsap.fromTo('.cert-stat-badge',
-        { y: 35, opacity: 0, scale: 0.94 },
-        {
-          y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.08, ease: 'power2.out',
-          scrollTrigger: {
-            trigger: '.cert-stats-container',
-            start: 'top 90%',
-            end: 'top 60%',
-            scrub: 0.6
-          }
-        }
-      );
-
-      // Cards staggered entrance
-      gsap.fromTo('.cert-category-card',
-        { y: 70, opacity: 0, scale: 0.96 },
-        {
-          y: 0, opacity: 1, scale: 1, duration: 1, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.cert-grid-container',
-            start: 'top 88%',
-            end: 'top 40%',
-            scrub: 0.7
-          }
-        }
-      );
-    }, containerRef);
-
-    return () => ctx.revert();
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  const handleNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const handlePrev = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
 
   const handleOpenModal = (cert, category) => {
     setSelectedCert(cert);
@@ -835,125 +500,306 @@ const CertificationsSection = ({ sectionRef }) => {
     setSelectedCategory(null);
   };
 
-  // Filter categories
-  const filteredCategories = activeFilter === 'all'
-    ? CERTIFICATION_CATEGORIES
-    : CERTIFICATION_CATEGORIES.filter((c) => c.id === activeFilter);
-
-  const totalCertificates = CERTIFICATION_CATEGORIES.reduce(
-    (acc, c) => acc + c.certificates.length,
-    0
-  );
+  const activeCategory = categories[activeIndex];
 
   return (
     <section
-      ref={sectionRef || containerRef}
+      ref={sectionRef}
       id="certifications"
-      className="relative w-full min-h-screen py-24 z-40 bg-[#0B0C0F] overflow-hidden"
+      className="relative w-full min-h-screen flex flex-col justify-center py-14 sm:py-16 px-[4vw] sm:px-[5vw] z-[45] bg-[#0B0C0F] overflow-hidden"
     >
-      <div ref={containerRef} className="px-[6vw]">
-        {/* Top Header Row with 3D Core Visual */}
-        <div className="grid lg:grid-cols-12 gap-8 items-center mb-16">
-          <div className="lg:col-span-8 cert-heading">
-            <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase flex items-center gap-2">
+      {/* Dynamic Ambient Glow Matching Active Card */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[72vw] h-[65vh] rounded-full blur-[160px] opacity-15 transition-colors duration-700"
+        style={{ backgroundColor: activeCategory.color || '#C8A45C' }}
+      />
+
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto flex flex-col items-center">
+        {/* Compact Top Bar so the Carousel Covers Most of the Page */}
+        <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
+          <div>
+            <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase inline-flex items-center gap-2">
               <Sparkles size={14} className="text-[#C8A45C]" />
-              Honors, Competitions & Verified Credentials
+              Honors, Competitions &amp; Verified Credentials
             </span>
-            <h2 className="text-[clamp(28px,3.8vw,52px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-3 leading-[1.05]">
-              Validated Proof <span className="block text-gradient">Of Relentless Execution.</span>
+            <h2 className="text-[clamp(24px,3vw,42px)] font-bold uppercase tracking-[0.05em] text-[#F2F4F8] mt-2 leading-[1.05]">
+              Validated Proof <span className="text-gradient">Of Execution.</span>
             </h2>
-            <p className="text-[#A7AFBA] text-sm md:text-base mt-4 max-w-2xl leading-relaxed font-light">
-              A comprehensive showcase of {totalCertificates}+ verified certifications, national hackathon podium finishes,
-              collegiate championships, and competitive algorithmic problem solving milestones.
-            </p>
-
-            {/* Quick Metrics Bar */}
-            <div className="cert-stats-container grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
-              {[
-                { number: `${totalCertificates}+`, label: 'Total Certificates' },
-                { number: '5+', label: 'Hackathon Awards' },
-                { number: 'Rank #1', label: 'GeeksforGeeks Campus' },
-                { number: '100%', label: 'Verified Issuers' }
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="cert-stat-badge p-3.5 rounded-xl border border-[rgba(242,244,248,0.1)] bg-[rgba(20,23,28,0.65)] backdrop-blur-sm"
-                >
-                  <p className="font-mono text-xl sm:text-2xl font-bold text-[#C8A45C]">
-                    {stat.number}
-                  </p>
-                  <p className="text-xs text-[#A7AFBA] font-mono mt-1">
-                    {stat.label}
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* Right Column: Three.js Interactive 3D Achievement Core */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center relative">
-            <div className="relative w-full max-w-[320px] aspect-square flex items-center justify-center">
-              <ThreeAchievementCore />
-              <div className="absolute -bottom-2 text-center pointer-events-none">
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#C8A45C]/80 px-3 py-1 rounded-full border border-[#C8A45C]/20 bg-[rgba(11,12,15,0.7)] backdrop-blur-md">
-                  Interactive 3D Achievement Core
-                </span>
-              </div>
-            </div>
+          <div className="flex items-center gap-3 self-start md:self-auto">
+            <span className="font-mono text-[11px] text-[#A7AFBA] hidden sm:inline">
+              Drag card or click peeking decks
+            </span>
+            <span className="px-3 py-1.5 rounded-xl border border-[rgba(242,244,248,0.12)] bg-[rgba(20,23,28,0.7)] font-mono text-xs text-[#F2F4F8]">
+              <span className="text-[#C8A45C] font-bold">0{activeIndex + 1}</span>
+              <span className="text-[#A7AFBA]/50"> / </span>
+              <span>0{total}</span>
+            </span>
           </div>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap items-center gap-2.5 mb-10 pb-2">
-          <div className="flex items-center gap-1.5 text-xs font-mono text-[#A7AFBA] mr-2">
-            <Filter size={14} className="text-[#C8A45C]" />
-            Filter:
-          </div>
+        {/* Full-Coverage Fanned 3D Stacked Card-Deck Carousel Stage */}
+        <div className="relative w-full h-[540px] sm:h-[600px] lg:h-[640px] flex items-center justify-center select-none">
+          {/* Left Navigation Arrow */}
           <button
-            onClick={() => setActiveFilter('all')}
-            className={`px-4 py-2 rounded-xl text-xs font-mono tracking-wider transition-all duration-300 ${
-              activeFilter === 'all'
-                ? 'bg-[#C8A45C] text-[#0B0C0F] font-bold shadow-lg shadow-[#C8A45C]/20'
-                : 'border border-[rgba(242,244,248,0.12)] text-[#A7AFBA] hover:text-[#F2F4F8] hover:border-[#C8A45C]/50 bg-[rgba(20,23,28,0.5)]'
-            }`}
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous credential category"
+            className="hidden sm:flex absolute left-0 lg:left-4 z-40 w-12 h-12 rounded-2xl border border-[rgba(242,244,248,0.14)] bg-[rgba(20,23,28,0.85)] backdrop-blur-xl items-center justify-center text-[#A7AFBA] hover:text-[#C8A45C] hover:border-[#C8A45C]/60 shadow-2xl transition-all duration-200 hover:scale-105 active:scale-95"
           >
-            All Categories ({CERTIFICATION_CATEGORIES.length})
+            <ChevronLeft size={22} />
           </button>
-          {CERTIFICATION_CATEGORIES.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setActiveFilter(cat.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-mono tracking-wider transition-all duration-300 ${
-                activeFilter === cat.id
-                  ? 'bg-[#C8A45C] text-[#0B0C0F] font-bold shadow-lg shadow-[#C8A45C]/20'
-                  : 'border border-[rgba(242,244,248,0.12)] text-[#A7AFBA] hover:text-[#F2F4F8] hover:border-[#C8A45C]/50 bg-[rgba(20,23,28,0.5)]'
-              }`}
-            >
-              {cat.title}
-            </button>
-          ))}
+
+          {/* Right Navigation Arrow */}
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next credential category"
+            className="hidden sm:flex absolute right-0 lg:right-4 z-40 w-12 h-12 rounded-2xl border border-[rgba(242,244,248,0.14)] bg-[rgba(20,23,28,0.85)] backdrop-blur-xl items-center justify-center text-[#A7AFBA] hover:text-[#C8A45C] hover:border-[#C8A45C]/60 shadow-2xl transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          {/* Stacked Fanned Cards */}
+          <div className="relative w-full h-full flex items-center justify-center">
+            {categories.map((category, index) => {
+              const offset = getRelativeOffset(index, activeIndex, total);
+              const absOffset = Math.abs(offset);
+              const isActive = offset === 0;
+              const Icon = category.icon;
+
+              // Fanned deck geometry matching the stacked fan visual
+              const xOffset = isMobile ? offset * 32 : offset * 105;
+              const yOffset = absOffset * (isMobile ? 8 : 10);
+              const rotateDeg = offset * (isMobile ? 4 : 5.2);
+              const scale = 1 - absOffset * 0.075;
+              const zIndex = 30 - absOffset * 10;
+              const opacity = isActive ? 1 : absOffset === 1 ? 0.88 : 0.6;
+
+              return (
+                <motion.div
+                  key={category.id}
+                  style={{
+                    zIndex,
+                    originX: 0.5,
+                    originY: 0.85
+                  }}
+                  initial={false}
+                  animate={{
+                    x: xOffset,
+                    y: yOffset,
+                    rotate: rotateDeg,
+                    scale,
+                    opacity
+                  }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 260,
+                    damping: 26,
+                    mass: 0.9
+                  }}
+                  drag={isActive ? 'x' : false}
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.22}
+                  dragMomentum={false}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x < -60 || info.velocity.x < -350) {
+                      handleNext();
+                    } else if (info.offset.x > 60 || info.velocity.x > 350) {
+                      handlePrev();
+                    }
+                  }}
+                  whileDrag={{ scale: 0.985, cursor: 'grabbing' }}
+                  onClick={() => {
+                    if (!isActive) setActiveIndex(index);
+                  }}
+                  className={`absolute w-[92vw] sm:w-[640px] md:w-[740px] lg:w-[820px] h-[520px] sm:h-[575px] lg:h-[600px] rounded-3xl border overflow-hidden shadow-[0_32px_95px_rgba(0,0,0,0.82)] transition-colors duration-300 ${
+                    isActive
+                      ? 'cursor-grab border-[rgba(200,164,92,0.35)] bg-[#13161C]'
+                      : 'cursor-pointer border-[rgba(242,244,248,0.14)] bg-[#0F1116]'
+                  }`}
+                >
+                  {/* Top Category Color Glow & Border Line */}
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 h-44 opacity-25"
+                    style={{
+                      background: `radial-gradient(ellipse at 50% 0%, ${category.color}, transparent 75%)`
+                    }}
+                  />
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[3px]"
+                    style={{ backgroundColor: category.color }}
+                  />
+
+                  {/* Subtle Veil over Background Peeking Cards */}
+                  {!isActive && (
+                    <div className="pointer-events-none absolute inset-0 z-30 bg-black/35 backdrop-blur-[1px]" />
+                  )}
+
+                  {/* Card Body */}
+                  <div className="relative z-10 h-full flex flex-col justify-between p-5 sm:p-8 lg:p-9">
+                    {/* Header */}
+                    <div>
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-3.5">
+                          <div
+                            className="w-12 h-12 rounded-2xl flex items-center justify-center border shrink-0"
+                            style={{
+                              backgroundColor: `${category.color}14`,
+                              borderColor: `${category.color}40`,
+                              color: category.color
+                            }}
+                          >
+                            <Icon size={22} />
+                          </div>
+                          <div>
+                            <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.16em] uppercase text-[#A7AFBA] block">
+                              {category.badge}
+                            </span>
+                            <h3 className="text-xl sm:text-2xl lg:text-[28px] font-bold text-[#F2F4F8] leading-tight mt-0.5">
+                              {category.title}
+                            </h3>
+                          </div>
+                        </div>
+
+                        <span className="px-3 py-1 rounded-full text-[11px] font-mono tracking-wider border border-[#C8A45C]/30 bg-[#C8A45C]/10 text-[#C8A45C] whitespace-nowrap shrink-0">
+                          {category.certificates.length} Credentials
+                        </span>
+                      </div>
+
+                      <p className="text-[#A7AFBA] text-xs sm:text-sm leading-relaxed line-clamp-2 max-w-2xl">
+                        {category.description}
+                      </p>
+                    </div>
+
+                    {/* 4 Interactive Credential Rows */}
+                    <div className="my-4 space-y-2.5 sm:space-y-3 overflow-y-auto pr-1">
+                      {category.certificates.map((cert) => (
+                        <button
+                          key={cert.id}
+                          type="button"
+                          onClick={(e) => {
+                            if (!isActive) return;
+                            e.stopPropagation();
+                            handleOpenModal(cert, category);
+                          }}
+                          className="w-full text-left p-3.5 sm:p-4 rounded-2xl border border-[rgba(242,244,248,0.08)] bg-[rgba(11,12,15,0.55)] hover:bg-[rgba(200,164,92,0.08)] hover:border-[#C8A45C]/45 transition-all duration-200 flex items-center justify-between group/cert"
+                        >
+                          <div className="flex items-center gap-3 min-w-0 pr-3">
+                            <span
+                              className="w-2 h-2 rounded-full shrink-0 group-hover/cert:scale-125 transition-transform"
+                              style={{
+                                backgroundColor: category.color || '#C8A45C',
+                                boxShadow: `0 0 8px ${category.color || '#C8A45C'}`
+                              }}
+                            />
+                            <div className="min-w-0">
+                              <p className="text-xs sm:text-sm lg:text-[15px] font-semibold text-[#F2F4F8] group-hover/cert:text-[#C8A45C] transition-colors truncate">
+                                {cert.title}
+                              </p>
+                              <p className="text-[11px] text-[#A7AFBA] font-mono mt-0.5 truncate">
+                                {cert.issuer} • {cert.date}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2.5 shrink-0">
+                            <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded-lg bg-[rgba(242,244,248,0.06)] text-[#A7AFBA] group-hover/cert:text-[#C8A45C] group-hover/cert:bg-[#C8A45C]/12 transition-colors hidden sm:inline-block">
+                              {cert.type}
+                            </span>
+                            <ChevronRight
+                              size={16}
+                              className="text-[#A7AFBA] group-hover/cert:text-[#C8A45C] group-hover/cert:translate-x-0.5 transition-all"
+                            />
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="pt-4 border-t border-[rgba(242,244,248,0.08)] flex items-center justify-between text-xs font-mono text-[#A7AFBA]">
+                      <span className="flex items-center gap-1.5" style={{ color: category.color }}>
+                        <Sparkles size={13} />
+                        {category.highlight}
+                      </span>
+                      <span className="text-[11px] underline underline-offset-4 text-[#A7AFBA]">
+                        Click any credential to inspect
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Categories Grid */}
-        <div className="cert-grid-container grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-          {filteredCategories.map((category) => (
-            <CategoryCard
-              key={category.id}
-              category={category}
-              onSelectCert={handleOpenModal}
-            />
-          ))}
+        {/* Bottom Track Switcher & Mobile Nav */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex sm:hidden items-center gap-3">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous card"
+              className="w-10 h-10 rounded-xl border border-[rgba(242,244,248,0.14)] bg-[rgba(20,23,28,0.8)] flex items-center justify-center text-[#F2F4F8]"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <span className="font-mono text-xs text-[#A7AFBA]">
+              0{activeIndex + 1} / 0{total}
+            </span>
+            <button
+              type="button"
+              onClick={handleNext}
+              aria-label="Next card"
+              className="w-10 h-10 rounded-xl border border-[rgba(242,244,248,0.14)] bg-[rgba(20,23,28,0.8)] flex items-center justify-center text-[#F2F4F8]"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 rounded-2xl border border-[rgba(242,244,248,0.1)] bg-[rgba(20,23,28,0.65)] backdrop-blur-xl">
+            {categories.map((cat, idx) => {
+              const Icon = cat.icon;
+              const isSelected = idx === activeIndex;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setActiveIndex(idx)}
+                  className={`relative flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono transition-colors duration-200 ${
+                    isSelected ? 'text-[#0B0C0F] font-bold' : 'text-[#A7AFBA] hover:text-[#F2F4F8]'
+                  }`}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="activeCertDeckTab"
+                      transition={{ type: 'spring', stiffness: 360, damping: 28 }}
+                      className="absolute inset-0 rounded-xl"
+                      style={{ backgroundColor: cat.color || '#C8A45C' }}
+                    />
+                  )}
+                  <Icon size={13} className="relative z-10" />
+                  <span className="relative z-10 hidden md:inline">{cat.title}</span>
+                  <span className="relative z-10 md:hidden">0{idx + 1}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       {/* Holographic Verification Modal */}
-      {selectedCert && (
-        <CertificateModal
-          certificate={selectedCert}
-          category={selectedCategory}
-          onClose={handleCloseModal}
-        />
-      )}
+      <AnimatePresence>
+        {selectedCert && (
+          <CertificateModal
+            certificate={selectedCert}
+            category={selectedCategory}
+            onClose={handleCloseModal}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 };
