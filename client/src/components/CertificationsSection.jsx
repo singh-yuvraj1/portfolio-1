@@ -18,13 +18,14 @@ import {
   Copy,
   Check
 } from 'lucide-react';
+import AnimatedHeading from './ui/AnimatedHeading';
 
 // Category data with 4 certificates each (total 20 certificates)
 const CERTIFICATION_CATEGORIES = [
   {
     id: 'hackathon',
-    title: 'Hackathons & Sprints',
-    badge: 'National & Global',
+    title: 'Hackathons',
+    badge: 'University & National Level',
     icon: Trophy,
     highlight: '5 Major Hackathons',
     color: '#E5C37A',
@@ -33,7 +34,7 @@ const CERTIFICATION_CATEGORIES = [
     certificates: [
       {
         id: 'hack-sih',
-        title: 'Smart India Hackathon (SIH) Finalist',
+        title: '',
         issuer: 'Ministry of Education & AICTE',
         date: '2024',
         credentialId: 'SIH-2024-NAT-7749',
@@ -518,15 +519,15 @@ export const CertificationsSection = ({ sectionRef }) => {
       <div className="relative z-10 w-full max-w-[1440px] mx-auto flex flex-col items-center">
         {/* Compact Top Bar so the Carousel Covers Most of the Page */}
         <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 sm:mb-8">
-          <div>
-            <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase inline-flex items-center gap-2">
-              <Sparkles size={14} className="text-[#C8A45C]" />
-              Honors, Competitions &amp; Verified Credentials
-            </span>
-            <h2 className="text-[clamp(24px,3vw,42px)] font-bold uppercase tracking-[0.05em] text-[#F2F4F8] mt-2 leading-[1.05]">
-              Validated Proof <span className="text-gradient">Of Execution.</span>
-            </h2>
-          </div>
+          <AnimatedHeading
+            eyebrow={
+              <>
+                <Sparkles size={14} className="text-[#C8A45C]" />
+                Honors, Competitions &amp; Verified Credentials
+              </>
+            }
+            title="Validated Proof *Of Execution.*"
+          />
 
           <div className="flex items-center gap-3 self-start md:self-auto">
             <span className="font-mono text-[11px] text-[#A7AFBA] hidden sm:inline">

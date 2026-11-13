@@ -14,6 +14,7 @@ import {
   ChevronRight,
   ImagePlus
 } from 'lucide-react';
+import AnimatedHeading from './ui/AnimatedHeading';
 
 /**
  * HOW TO ADD YOUR BADGE IMAGES LATER:
@@ -25,65 +26,65 @@ const BADGES_DATA = [
   {
     id: 'badge-01',
     code: '# 01',
-    title: 'Smart India Hackathon',
-    subtitle: 'National Finalist',
-    issuer: 'Ministry of Education & AICTE',
-    year: '2024',
+    title: 'LeetCode 50 Days ',
+    subtitle: 'Solving problems for 50days',
+    issuer: 'LeetCode',
+    year: '2026',
     accent: '#C8A45C',
     surface: 'from-[#1C170D] via-[#121318] to-[#0B0C0F]',
-    posterText: ['NATIONAL', 'FINALIST', 'SIH 2024'],
+    posterText: ['50 DAYS', 'CONSISTENT', 'DSA'],
     icon: Trophy,
     image: null // e.g. '/badges/sih-2024.png'
   },
   {
     id: 'badge-02',
     code: '# 02',
-    title: 'GeeksforGeeks Institute #1',
-    subtitle: 'Campus Leader Badge',
-    issuer: 'GeeksforGeeks',
-    year: '2024',
+    title: 'Leetcode 100 Days',
+    subtitle: 'Solving problems for 100days',
+    issuer: 'Leetcode',
+    year: '2026',
     accent: '#2F8D46',
     surface: 'from-[#0D1E14] via-[#101518] to-[#0B0C0F]',
-    posterText: ['RANK #01', 'CAMPUS', 'LEADER'],
+    posterText: ['100 DAYS', 'CONSISTENT', 'DSA'],
     icon: Code2,
     image: null // e.g. '/badges/gfg-rank1.png'
   },
   {
     id: 'badge-03',
     code: '# 03',
-    title: 'GfG 160-Day Streak',
-    subtitle: 'Problem Solving Mastery',
-    issuer: 'GeeksforGeeks',
-    year: '2024',
+    title: 'Leetcode 200 Days',
+    subtitle: 'Solving problems for 200days',
+    issuer: 'Leetcode',
+    year: '2026',
     accent: '#E05D44',
     surface: 'from-[#22100E] via-[#141115] to-[#0B0C0F]',
-    posterText: ['160 DAYS', 'CONSISTENT', 'DSA'],
+    posterText: ['200 DAYS', 'CONSISTENT', 'DSA'],
     icon: Flame,
     image: null // e.g. '/badges/gfg-160.png'
   },
   {
     id: 'badge-04',
     code: '# 04',
-    title: 'LeetCode Annual Badge',
-    subtitle: 'Algorithms & Systems',
+    title: 'May Consistency Badge',
+    subtitle: 'Consistency for the whole month of may',
     issuer: 'LeetCode',
-    year: '2024',
+    year: '2026',
     accent: '#FFA116',
     surface: 'from-[#23190B] via-[#141316] to-[#0B0C0F]',
-    posterText: ['LEETCODE', 'PROBLEM', 'SOLVER'],
+    posterText: ['MAY', 'CONSISTENT', 'BADGE'],
     icon: Terminal,
     image: null // e.g. '/badges/leetcode.png'
   },
   {
     id: 'badge-05',
     code: '# 05',
-    title: 'HackerRank 5-Star Gold',
-    subtitle: 'Gold Problem Solving',
-    issuer: 'HackerRank',
-    year: '2023',
+    title: 'MongoDB overview',
+    subtitle: 'MongoDB Overview',
+    issuer: 'MongoDB',
+    year: '2026',
     accent: '#D4B76A',
     surface: 'from-[#1F1A0E] via-[#151519] to-[#0B0C0F]',
-    posterText: ['5-STAR', 'GOLD', 'BADGE'],
+    posterText: ['MONGODB', 'OVERVIEW', 'BADGE'],
     icon: Star,
     image: null // e.g. '/badges/hackerrank.png'
   },
@@ -106,7 +107,7 @@ const BADGES_DATA = [
     title: 'Google Cloud GenAI',
     subtitle: 'Generative AI Skill Badge',
     issuer: 'Google Cloud',
-    year: '2024',
+    year: '2026',
     accent: '#A78BFA',
     surface: 'from-[#1A132B] via-[#13121C] to-[#0B0C0F]',
     posterText: ['GOOGLE', 'GEN AI', 'SKILL'],
@@ -116,26 +117,26 @@ const BADGES_DATA = [
   {
     id: 'badge-08',
     code: '# 08',
-    title: 'Annual Code Champion',
-    subtitle: '1st Place Gold Medalist',
-    issuer: 'RIMT University',
-    year: '2024',
+    title: 'Google Cloud Speech API',
+    subtitle: 'Google Cloud Speech API',
+    issuer: 'Google Cloud',
+    year: '2026',
     accent: '#F43F5E',
     surface: 'from-[#250E16] via-[#151117] to-[#0B0C0F]',
-    posterText: ['1ST PLACE', 'GOLD', 'CHAMPION'],
+    posterText: ['GOOGLE', 'SPEECH API', 'SKILL'],
     icon: Award,
     image: null // e.g. '/badges/code-champion.png'
   },
   {
     id: 'badge-09',
     code: '# 09',
-    title: 'Meta Front-End Verified',
-    subtitle: 'React & UI Engineering',
-    issuer: 'Meta Developer',
-    year: '2024',
+    title: 'Gemini Application',
+    subtitle: 'Gemini Enterprise Applications',
+    issuer: 'Google Cloud',
+    year: '2026',
     accent: '#60A5FA',
     surface: 'from-[#0E192E] via-[#11151D] to-[#0B0C0F]',
-    posterText: ['META', 'FRONTEND', 'ENGINEER'],
+    posterText: ['GEMINI', 'APPLICATION', 'SKILL'],
     icon: ShieldCheck,
     image: null // e.g. '/badges/meta-frontend.png'
   }
@@ -172,25 +173,19 @@ export const BadgesShowcaseSection = ({ sectionRef }) => {
       />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto">
-        {/* Minimal Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8 md:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
-        >
-          <div>
-            <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase inline-flex items-center gap-2">
-              <Award size={14} />
-              Badges & Milestones
-            </span>
-            <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-3 leading-[1.05]">
-              Earned <span className="text-gradient">Honors.</span>
-            </h2>
-          </div>
+        {/* Section Header with Word-by-Word Reveal */}
+        <div className="mb-8 md:mb-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <AnimatedHeading
+            eyebrow={
+              <>
+                <Award size={14} />
+                Badges & Milestones
+              </>
+            }
+            title="Earned *Honors.*"
+          />
 
-          <div className="flex items-center gap-3 self-start sm:self-auto">
+          <div className="flex items-center gap-3 self-start sm:self-auto mb-1">
             <span className="font-mono text-xs text-[#A7AFBA] mr-1">
               {String(activeIndex + 1).padStart(2, '0')} / {String(BADGES_DATA.length).padStart(2, '0')}
             </span>
@@ -211,7 +206,7 @@ export const BadgesShowcaseSection = ({ sectionRef }) => {
               <ChevronRight size={16} />
             </button>
           </div>
-        </motion.div>
+        </div>
 
         {/* Skiper-style Expanding Horizontal Accordion Gallery */}
         <motion.div

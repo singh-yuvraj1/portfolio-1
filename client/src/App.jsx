@@ -20,110 +20,19 @@ import {
   ArrowUp,
   Layers
 } from 'lucide-react';
-import ContactForm from './components/ContactForm';
 import CertificationsSection from './components/CertificationsSection';
 import TechStackSection from './components/TechStackSection';
 import BadgesShowcaseSection from './components/BadgesShowcaseSection';
+import ProjectsSection from './components/ProjectsSection';
+import ContactSection from './components/ContactSection';
+import AnimatedHeading from './components/ui/AnimatedHeading';
 import './App.css';
 
 // Production-safe image asset imports
-import hiremindImg from './assets/hiremind-ai.png';
-import taskTitanImg from './assets/task-titan.png';
-import hungryBitesImg from './assets/hungry_bites.png';
-import aiAttendImg from './assets/ai-attend.png';
-import codeStudioImg from './assets/code_studio.png';
-import qrMakerImg from './assets/qr-maker.png';
-import sLabImg from './assets/s-lab.png';
 import heroBgImg from './assets/hero-bg.jpg';
 import editYuvImg from './assets/edityuv.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
-
-
-// 3D Tilt Card Component for Projects
-const ProjectCard = ({ project }) => {
-  const cardRef = useRef(null);
-  const [style, setStyle] = useState({});
-
-  const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    // Max rotation of 4 degrees
-    const rotateX = ((y - centerY) / centerY) * -4;
-    const rotateY = ((x - centerX) / centerX) * 4;
-
-    setStyle({
-      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`,
-      transition: 'transform 0.1s ease-out'
-    });
-  };
-
-  const handleMouseLeave = () => {
-    setStyle({
-      transform: `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
-      transition: 'transform 0.5s ease-out'
-    });
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      className="project-card group card-glass rounded-xl overflow-hidden"
-      style={style}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="flex flex-col lg:flex-row h-full">
-        <div className="lg:w-2/5 image-gold-tint overflow-hidden">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-48 lg:h-full object-cover transition-transform duration-1200 ease-smooth-out group-hover:scale-110"
-          />
-        </div>
-        <div className="lg:w-3/5 p-6 lg:p-8 flex flex-col justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-[#F2F4F8] mb-2">{project.title}</h3>
-            <p className="text-[#A7AFBA] text-sm leading-relaxed mb-4">{project.description}</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {project.tags.map((tag, i) => (
-                <span key={i} className="tag">{tag}</span>
-              ))}
-            </div>
-          </div>
-          <div className="flex gap-4 relative z-10">
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-[#A7AFBA] hover:text-[#C8A45C] transition-colors"
-            >
-              <Github size={16} />
-              GitHub
-            </a>
-            {project.live && (
-              <a
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-[#A7AFBA] hover:text-[#C8A45C] transition-colors"
-              >
-                <ExternalLink size={16} />
-                Live Site
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 function App() {
   const [copied, setCopied] = useState(false);
@@ -175,21 +84,53 @@ function App() {
     };
   }, []);
 
-  // Preloader logic
+  // Preloader logic — cinematic quote displayed for 4.8s with smooth exit transition
   useEffect(() => {
     document.body.style.overflow = 'hidden'; // Lock scroll during loading
 
     const ctx = gsap.context(() => {
-      gsap.fromTo('.preloader-text',
-        { opacity: 0, scale: 0.95, filter: 'blur(12px)' },
-        { opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.5, ease: 'power3.out', delay: 0.2 }
-      );
+      const tl = gsap.timeline();
+
+      // Smooth entrance with subtle blur dissolve
+      tl.fromTo(
+        '.preloader-badge',
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 0.2 }
+      )
+      .fromTo(
+        '.preloader-quote',
+        { opacity: 0, y: 24, filter: 'blur(12px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
+        '-=0.5'
+      )
+      .fromTo(
+        '.preloader-author',
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' },
+        '-=0.4'
+      )
+      .fromTo(
+        '.preloader-progress',
+        { scaleX: 0 },
+        { scaleX: 1, duration: 2.8, ease: 'power1.inOut' },
+        '-=0.6'
+      )
+      // Gentle text outro dissolve before curtain slides away
+      .to(['.preloader-badge', '.preloader-quote', '.preloader-author', '.preloader-progress-track'], {
+        opacity: 0,
+        y: -16,
+        filter: 'blur(8px)',
+        duration: 0.8,
+        ease: 'power2.inOut',
+        delay: 0.3
+      });
     });
 
+    // Stays visible for ~4.8 seconds then triggers the smooth curtain transition
     const timer = setTimeout(() => {
       setIsLoaded(true);
       document.body.style.overflow = ''; // Unlock scroll
-    }, 1800);
+    }, 4800);
 
     return () => {
       clearTimeout(timer);
@@ -244,10 +185,16 @@ function App() {
         { scale: 1, opacity: 1, duration: 1.6, ease: 'power2.out' }
       );
 
-      heroTl.fromTo('.hero-headline span',
-        { y: 60, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.1, stagger: 0.12, ease: 'power3.out' },
+      heroTl.fromTo('.hero-word',
+        { y: '125%', opacity: 0, rotateZ: 2 },
+        { y: '0%', opacity: 1, rotateZ: 0, duration: 1.25, stagger: 0.38, ease: 'power3.out' },
         '-=0.8'
+      );
+
+      heroTl.fromTo('.hero-description',
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: 'power2.out' },
+        '-=0.5'
       );
 
       heroTl.fromTo('.hero-card',
@@ -316,42 +263,6 @@ function App() {
     return () => ctx.revert();
   }, [isLoaded]);
 
-  // Work section animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.work-title',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1,
-          scrollTrigger: {
-            trigger: workRef.current,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 0.7
-          }
-        }
-      );
-
-      gsap.utils.toArray('.project-card').forEach((card, i) => {
-        gsap.fromTo(card,
-          { y: 80, opacity: 0, scale: 0.97 },
-          {
-            y: 0, opacity: 1, scale: 1, duration: 1,
-            delay: i * 0.08,
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 90%',
-              end: 'top 55%',
-              scrub: 0.7
-            }
-          }
-        );
-      });
-    }, workRef);
-
-    return () => ctx.revert();
-  }, []);
-
   // About section animations
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -368,14 +279,14 @@ function App() {
         }
       );
 
-      gsap.fromTo('.about-content',
-        { x: 60, opacity: 0 },
+      gsap.fromTo('.about-body',
+        { y: 40, opacity: 0 },
         {
-          x: 0, opacity: 1, duration: 1.2,
+          y: 0, opacity: 1, duration: 1.2,
           scrollTrigger: {
             trigger: aboutRef.current,
-            start: 'top 80%',
-            end: 'top 30%',
+            start: 'top 75%',
+            end: 'top 35%',
             scrub: 0.8
           }
         }
@@ -398,125 +309,56 @@ function App() {
     return () => ctx.revert();
   }, []);
 
-  // Tech Stack & Badges sections handle their own entrance & interactive animations cleanly
-
-  // Contact section animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.contact-left',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1,
-          scrollTrigger: {
-            trigger: contactRef.current,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 0.7
-          }
-        }
-      );
-
-      gsap.fromTo('.contact-right',
-        { y: 50, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1,
-          scrollTrigger: {
-            trigger: contactRef.current,
-            start: 'top 80%',
-            end: 'top 40%',
-            scrub: 0.7
-          }
-        }
-      );
-
-      gsap.fromTo('.footer-bottom',
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1, y: 0, duration: 0.8,
-          scrollTrigger: {
-            trigger: '.footer-bottom',
-            start: 'top 95%',
-            end: 'top 80%',
-            scrub: 0.6
-          }
-        }
-      );
-    }, contactRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const projects = [
-    {
-      title: 'HireMind-AI',
-      description: 'An AI-driven platform that evaluates candidate skills, recommends learning resources, and provides personalized interview preparation',
-      tags: ['AI interview', 'ATS Checker', 'Job Portal', 'Aptitude Training'],
-      image: hiremindImg,
-      github: 'https://github.com/singh-yuvraj1/hiremind-ai-new',
-      live: 'https://hiremind-ai.vercel.app'
-    },
-    {
-      title: 'TaskTitan-AI',
-      description: 'an AI-powered productivity platform featuring an intelligent assistant (Kai AI) for natural-language task management, personalized planning, task prioritization, deadline-rescue mode, and AI-driven productivity coaching.',
-      tags: ['Flask', 'Supabase', 'Security'],
-      image: taskTitanImg,
-      github: 'https://github.com/singh-yuvraj1/TaskTitan_AI',
-      live: 'https://task-titan-ai.vercel.app'
-    },
-    {
-      title: 'Hungry Bites',
-      description: 'Transform any valid, reachable URL into a customizable QR code in seconds. Generate, personalize, and download with ease.',
-      tags: ['React', 'Geofencing', 'Live Tracking'],
-      image: hungryBitesImg,
-      github: 'https://github.com/deepznavzz/safewalk',
-      live: 'https://safewalk-y87y.onrender.com/'
-    },
-    {
-      title: 'Ai attendance System',
-      description: 'Turn data into polished PDF reports in seconds. A powerful tool for generating professional reports from structured data.',
-      tags: ['React', 'Node.js', 'PDF'],
-      image: aiAttendImg,
-      github: 'https://github.com/projectsnavadeep/reportgenerator.in',
-      live: 'https://reportgenerator.in'
-    },
-    {
-      title: 'Code Studio',
-      description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
-      tags: ['Firebase', 'React', 'UX'],
-      image: codeStudioImg,
-      github: 'https://github.com/deepznavzz/timecapsule',
-      live: 'https://digital-time-capsule-ztsp.onrender.com'
-    },
-    {
-      title: 'Qr Maker',
-      description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
-      tags: ['Firebase', 'React', 'UX'],
-      image: qrMakerImg,
-      github: 'https://github.com/deepznavzz/timecapsule',
-      live: 'https://digital-time-capsule-ztsp.onrender.com'
-    },
-    {
-      title: 'Suduko Lab',
-      description: 'Capture moments, lock them in time, share the key. An emotional platform for preserving memories digitally.',
-      tags: ['Firebase', 'React', 'UX'],
-      image: sLabImg,
-      github: 'https://github.com/deepznavzz/timecapsule',
-      live: 'https://digital-time-capsule-ztsp.onrender.com'
-    },
-  ];
+  // Tech Stack, Badges & Contact sections handle their own entrance & interactive animations cleanly
 
   return (
     <>
-      {/* Figma-style Minimal Preloader */}
+      {/* Cinematic Quote Preloader Screen */}
       <div
-        className={`fixed inset-0 z-[9999] bg-[#0B0C0F] flex flex-col items-center justify-center transition-transform duration-1200 ease-smooth-out ${isLoaded ? '-translate-y-full' : 'translate-y-0'
-          }`}
+        className={`fixed inset-0 z-[9999] bg-[#0B0C0F] flex flex-col items-center justify-center px-6 transition-all duration-1200 ease-smooth-out select-none ${
+          isLoaded ? '-translate-y-full opacity-0 pointer-events-none' : 'translate-y-0 opacity-100'
+        }`}
       >
-        <div className="overflow-hidden">
-          <h1 className="preloader-text font-serif text-[clamp(36px,10vw,40px)] tracking-[0.2em] font-light text-[#F2F4F8] uppercase">
-            S.YUVRAJ SINGH
-          </h1>
+        {/* Subtle Ambient Radial Gold Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] max-w-[560px] h-[280px] rounded-full bg-[#C8A45C]/10 blur-[130px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center text-center">
+          {/* Subtle Eyebrow Badge */}
+          <div className="preloader-badge inline-flex items-center gap-2 mb-6 sm:mb-8 px-3.5 py-1 rounded-full border border-[rgba(200,164,92,0.25)] bg-[rgba(200,164,92,0.06)] backdrop-blur-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45C] animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-xs tracking-[0.2em] text-[#C8A45C] uppercase">
+              Developer Manifesto
+            </span>
+          </div>
+
+          {/* Main Requested Quote */}
+          <blockquote className="preloader-quote text-[clamp(22px,3.4vw,40px)] font-medium leading-[1.3] tracking-[-0.01em] text-[#F2F4F8] max-w-3xl">
+            <span className="text-[#C8A45C] font-serif text-[1.25em] mr-1.5">“</span>
+            A developer who knows how to build, not just those who know how to code
+            <span className="text-[#C8A45C] font-serif text-[1.25em] ml-1.5">”</span>
+          </blockquote>
+
+          {/* Author Attribution */}
+          <p className="preloader-author font-mono text-xs sm:text-sm md:text-base text-[#A7AFBA] mt-6 sm:mt-7 tracking-[0.16em] uppercase flex items-center justify-center gap-3">
+            <span className="w-8 sm:w-12 h-[1px] bg-[#C8A45C]/50" />
+            <span className="text-[#E5C37A] font-semibold">S. Yuvraj Singh</span>
+            <span className="w-8 sm:w-12 h-[1px] bg-[#C8A45C]/50" />
+          </p>
+
+          {/* Minimal Elegant Timer / Progress Bar */}
+          <div className="preloader-progress-track w-40 sm:w-52 h-[2px] bg-[rgba(242,244,248,0.08)] rounded-full mt-8 sm:mt-10 overflow-hidden">
+            <div className="preloader-progress w-full h-full bg-gradient-to-r from-[#C8A45C]/40 via-[#E5C37A] to-[#C8A45C]/40 origin-left" />
+          </div>
         </div>
+
+        {/* Skip button for quick testing */}
+        <button
+          type="button"
+          onClick={() => setIsLoaded(true)}
+          className="absolute bottom-6 right-6 font-mono text-[11px] tracking-[0.15em] uppercase text-[#A7AFBA]/60 hover:text-[#C8A45C] transition-colors duration-300"
+        >
+          Skip &rarr;
+        </button>
       </div>
 
       {/* Main Content wrapper */}
@@ -613,10 +455,14 @@ function App() {
             {/* Headline */}
             <div className="hero-headline relative z-20 max-w-[62vw] mt-[8vh]">
               <h1 className="text-[clamp(36px,5.2vw,78px)] font-bold uppercase tracking-[0.08em] leading-[0.95] text-[#F2F4F8]">
-                <span className="block">Creative</span>
-                <span className="block text-gradient">Developer</span>
+                <span className="block overflow-hidden py-0.5">
+                  <span className="hero-word block">Creative</span>
+                </span>
+                <span className="block overflow-hidden py-0.5">
+                  <span className="hero-word block text-gradient">Developer</span>
+                </span>
               </h1>
-              <p className="text-[#A7AFBA] text-sm md:text-base mt-4 max-w-md leading-relaxed font-light">
+              <p className="hero-description text-[#A7AFBA] text-sm md:text-base mt-4 max-w-md leading-relaxed font-light">
                 From pixels to production, I build seamless digital experiences that blend creativity and clean code.
               </p>
             </div>
@@ -676,94 +522,86 @@ function App() {
           </div>
         </section>
 
-        {/* Section 2: Selected Work */}
-        <section ref={workRef} className="relative w-full min-h-screen py-24 z-20 bg-[#0B0C0F]">
-          <div className="px-[6vw]">
-            <div className="work-title mb-16">
-              <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase">Selected Work</span>
-              <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-4">
-                A few builds I'm proud of.
-              </h2>
-              <p className="text-[#A7AFBA] mt-4 max-w-xl">
-                Products, landing pages, and tools—designed for clarity and engineered for performance.
-              </p>
-            </div>
-
-            <div className="space-y-8">
-              {projects.map((project, index) => (
-                <ProjectCard key={index} project={project} />
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Section 2: Selected Work (Alternating Layout & Animated Scroll Timeline) */}
+        <ProjectsSection sectionRef={workRef} />
 
         {/* Section 3: About */}
         <section ref={aboutRef} className="relative w-full min-h-screen py-24 z-30 bg-[#0B0C0F]">
           <div className="px-[6vw]">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="about-image image-gold-tint rounded-2xl overflow-hidden aspect-square sm:aspect-[4/5] md:aspect-[3/4] lg:aspect-[2/3] w-full shadow-lg shadow-black/30">
-                <img
-                  src={editYuvImg}
-                  alt="About portrait"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 ease-out"
-                />
+              <div className="about-image relative w-full max-w-[500px] lg:max-w-[530px] mx-auto lg:mx-0">
+                {/* Subtle Ambient Gold Glow Behind Photo */}
+                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[#C8A45C]/20 via-transparent to-[#38BDF8]/10 blur-xl opacity-75" />
+
+                <div className="relative rounded-3xl p-2.5 border border-[rgba(200,164,92,0.28)] bg-[rgba(16,19,26,0.6)] backdrop-blur-md shadow-[0_25px_80px_rgba(0,0,0,0.65)]">
+                  <div className="image-gold-tint rounded-2xl overflow-hidden w-full h-[470px] sm:h-[540px] lg:h-[600px]">
+                    <img
+                      src={editYuvImg}
+                      alt="About portrait"
+                      className="w-full h-full object-cover object-[center_20%] transition-transform duration-700 ease-out"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="about-content">
-                <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase">About</span>
-                <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-4">
-                  I build with intention.
-                </h2>
+                <AnimatedHeading
+                  eyebrow="About"
+                  title="I build with *intention.*"
+                  className="mb-4"
+                />
 
-                <div className="quote-mark-anim quote-mark mt-6">"</div>
+                <div className="about-body">
+                  <div className="quote-mark-anim quote-mark mt-4">"</div>
 
-                <div className="space-y-4 mt-4">
-                  <p className="text-[#A7AFBA] leading-relaxed">
-                    I'm Yuvraj Singh — a full-stack developer who enjoys turning ideas into
-                    practical, intelligent digital experiences.
-                  </p>
+                  <div className="space-y-4 mt-4">
+                    <p className="text-[#A7AFBA] leading-relaxed">
+                      I'm Yuvraj Singh — a full-stack developer who enjoys turning ideas into
+                      practical, intelligent digital experiences.
+                    </p>
 
-                  <p className="text-[#A7AFBA] leading-relaxed">
-                    I work across modern web technologies, building clean interfaces,
-                    scalable applications, and AI-powered solutions that solve real problems.
-                  </p>
+                    <p className="text-[#A7AFBA] leading-relaxed">
+                      I work across modern web technologies, building clean interfaces,
+                      scalable applications, and AI-powered solutions that solve real problems.
+                    </p>
 
-                  <p className="text-[#A7AFBA] leading-relaxed">
-                    When I'm not building, I'm sharpening my skills in DSA, exploring new
-                    technologies, and constantly finding better ways to build for the web.
-                  </p>
-                </div>
+                    <p className="text-[#A7AFBA] leading-relaxed">
+                      When I'm not building, I'm sharpening my skills in DSA, exploring new
+                      technologies, and constantly finding better ways to build for the web.
+                    </p>
+                  </div>
 
-                <div className="flex flex-wrap gap-4 mt-8">
-                  <div className="flex-1 min-w-[200px] p-4 bg-[rgba(200,164,92,0.08)] rounded-lg border border-[rgba(200,164,92,0.2)]">
-                    <div className="flex items-center gap-3">
-                      <Code2 size={20} className="text-[#C8A45C]" />
-                      <div>
-                        <p className="text-sm text-[#F2F4F8]">B.Tech 4th Year</p>
-                        <p className="text-xs text-[#A7AFBA]">RIMT University | Panjab </p>
+                  <div className="flex flex-wrap gap-4 mt-8">
+                    <div className="flex-1 min-w-[200px] p-4 bg-[rgba(200,164,92,0.08)] rounded-lg border border-[rgba(200,164,92,0.2)]">
+                      <div className="flex items-center gap-3">
+                        <Code2 size={20} className="text-[#C8A45C]" />
+                        <div>
+                          <p className="text-sm text-[#F2F4F8]">B.Tech 4th Year</p>
+                          <p className="text-xs text-[#A7AFBA]">RIMT University | Panjab </p>
+                        </div>
                       </div>
                     </div>
+                    <a
+                      href="https://drive.google.com/file/d/1uYP4oG0wECtcAfMej1FFGQHrTrqD1PkY/view?usp=drivesdk"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 p-4 bg-[rgba(200,164,92,0.15)] hover:bg-[rgba(200,164,92,0.25)] transition-colors rounded-lg border border-[#C8A45C]"
+                    >
+                      <FileText size={20} className="text-[#C8A45C]" />
+                      <span className="text-sm font-bold text-[#F2F4F8]">Download Resume</span>
+                    </a>
                   </div>
+
                   <a
-                    href="https://drive.google.com/file/d/1uYP4oG0wECtcAfMej1FFGQHrTrqD1PkY/view?usp=drivesdk"
+                    href="https://www.linkedin.com/in/singh-yuvraj2131/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 bg-[rgba(200,164,92,0.15)] hover:bg-[rgba(200,164,92,0.25)] transition-colors rounded-lg border border-[#C8A45C]"
+                    className="inline-flex items-center gap-2 mt-6 link-gold text-sm"
                   >
-                    <FileText size={20} className="text-[#C8A45C]" />
-                    <span className="text-sm font-bold text-[#F2F4F8]">Download Resume</span>
+                    Read more on LinkedIn
+                    <ExternalLink size={14} />
                   </a>
                 </div>
-
-                <a
-                  href="https://www.linkedin.com/in/singh-yuvraj2131/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-6 link-gold text-sm"
-                >
-                  Read more on LinkedIn
-                  <ExternalLink size={14} />
-                </a>
               </div>
             </div>
           </div>
@@ -780,69 +618,8 @@ function App() {
         {/* Section 6: Badges & Milestones Accordion Showcase */}
         <BadgesShowcaseSection sectionRef={testimonialsRef} />
 
-        {/* Section 7: Contact / Footer */}
-        <section ref={contactRef} className="relative w-full min-h-screen py-24 z-[70] bg-[#14171C]">
-          <div className="px-[6vw]">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-              <div className="contact-left">
-                <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase">Contact</span>
-                <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-4">
-                  Let's build something great.
-                </h2>
-                <p className="text-[#A7AFBA] mt-4 max-w-md">
-                  Tell me what you're making. I'll reply within 1–2 business days.
-                </p>
-
-                <div className="flex flex-wrap gap-4 mt-8">
-                  <a
-                    href="mailto:yuvraj.singh.95928@gmail.com"
-                    className="btn-primary flex items-center gap-2"
-                  >
-                    <Mail size={16} />
-                    Email Me
-                  </a>
-                  
-                </div>
-              </div>
-
-              <div className="contact-right">
-                <ContactForm />
-              </div>
-            </div>
-
-            <div className="footer-bottom mt-24 pt-8 border-t border-[rgba(242,244,248,0.1)] flex flex-col md:flex-row justify-between items-center gap-6">
-              <div className="flex items-center gap-6 order-2 md:order-1">
-                <p className="text-xs text-[#A7AFBA]">
-                  © Yuvraj Singh. Built with Passion and Care.
-                </p>
-                <div className="hidden md:flex items-center gap-4 text-[#A7AFBA]">
-                  <a href="https://github.com/singh-yuvraj1" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8A45C] transition-colors" aria-label="GitHub">
-                    <Github size={16} />
-                  </a>
-                  <a href="https://www.linkedin.com/in/singh-yuvraj2131/" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8A45C] transition-colors" aria-label="LinkedIn">
-                    <Linkedin size={16} />
-                  </a>
-                  <a href="mailto:yuvraj.singh.95928@gmail.com" className="hover:text-[#C8A45C] transition-colors" aria-label="Email">
-                    <Mail size={16} />
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 order-1 md:order-2">
-                <p className="text-xs text-[#A7AFBA] font-mono">
-                  B.Tech 4th year [RIMT University..]
-                </p>
-                <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="w-10 h-10 rounded-full border border-[rgba(242,244,248,0.1)] flex items-center justify-center text-[#A7AFBA] hover:text-[#C8A45C] hover:border-[#C8A45C] transition-all duration-300 hover:-translate-y-1 bg-[rgba(20,23,28,0.5)]"
-                  aria-label="Back to top"
-                >
-                  <ArrowUp size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Section 7: Animated Contact Hub & Footer */}
+        <ContactSection sectionRef={contactRef} />
       </div>
     </>
   );

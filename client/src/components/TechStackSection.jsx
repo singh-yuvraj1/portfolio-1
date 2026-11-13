@@ -7,6 +7,7 @@ import {
   Cpu,
   Sparkles
 } from 'lucide-react';
+import AnimatedHeading from './ui/AnimatedHeading';
 
 const TECH_FIELDS = [
   {
@@ -20,7 +21,8 @@ const TECH_FIELDS = [
       { name: 'Python', dot: '#3776AB' },
       { name: 'JavaScript', dot: '#F7DF1E' },
       { name: 'Java', dot: '#EA2D2E' },
-      { name: 'C++', dot: '#00599C' }
+      { name: 'C++', dot: '#00599C' },
+      { name: 'TypeScript', dot: '#E34f26' }
     ]
   },
   {
@@ -34,7 +36,8 @@ const TECH_FIELDS = [
       { name: 'React', dot: '#61DAFB' },
       { name: 'Tailwind CSS', dot: '#06B6D4' },
       { name: 'GSAP', dot: '#88CE02' },
-      { name: 'HTML / CSS', dot: '#E34F26' }
+      { name: 'HTML / CSS', dot: '#E34F26' },
+      { name: 'Next.js', dot: '#00599C' },
     ]
   },
   {
@@ -48,7 +51,8 @@ const TECH_FIELDS = [
       { name: 'Node.js', dot: '#339933' },
       { name: 'Flask', dot: '#F2F4F8' },
       { name: 'Express', dot: '#A7AFBA' },
-      { name: 'REST APIs', dot: '#C8A45C' }
+      { name: 'REST APIs', dot: '#C8A45C' },
+      { name: 'Mongoose', dot: '#00599C' },
     ]
   },
   {
@@ -212,28 +216,22 @@ export const TechStackSection = ({ sectionRef }) => {
       `}</style>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto">
-        {/* Clean Section Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="tech-stack-heading mb-10 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4"
-        >
-          <div>
-            <span className="font-mono text-xs tracking-[0.18em] text-[#C8A45C] uppercase inline-flex items-center gap-2">
-              <Sparkles size={14} />
-              Tech Stack
-            </span>
-            <h2 className="text-[clamp(28px,3.6vw,48px)] font-bold uppercase tracking-[0.06em] text-[#F2F4F8] mt-3 leading-[1.05]">
-              Tools I <span className="text-gradient">work with.</span>
-            </h2>
-          </div>
+        {/* Clean Section Heading with Word-by-Word Sequential Reveal */}
+        <div className="tech-stack-heading mb-10 sm:mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <AnimatedHeading
+            eyebrow={
+              <>
+                <Sparkles size={14} />
+                Tech Stack
+              </>
+            }
+            title="Tools I *work with.*"
+          />
 
-          <span className="font-mono text-[11px] text-[#A7AFBA] self-start sm:self-auto">
+          <span className="font-mono text-[11px] text-[#A7AFBA] self-start sm:self-auto mb-1">
             Hover any row to pause
           </span>
-        </motion.div>
+        </div>
 
         {/* Field-Wise Animated Marquee Rows (Locked at 0.5x Speed) */}
         <div className="space-y-4">
