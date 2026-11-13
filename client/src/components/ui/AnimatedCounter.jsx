@@ -3,7 +3,7 @@ import { useInView } from 'framer-motion';
 
 export const AnimatedCounter = ({ value = '' }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.5 });
+  const isInView = useInView(ref, { once: false, amount: 0.4 });
 
   // Parse leading prefix (#), numeric core, and trailing suffix (+)
   const match = String(value).match(/^([^0-9]*)(\d+)(.*)$/);
@@ -14,7 +14,12 @@ export const AnimatedCounter = ({ value = '' }) => {
   const [displayValue, setDisplayValue] = useState(target !== null ? 0 : value);
 
   useEffect(() => {
-    if (!isInView || target === null) return;
+    if (target === null) return;
+
+    if (!isInView) {
+      setDisplayValue(0);
+      return;
+    }
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setDisplayValue(target);

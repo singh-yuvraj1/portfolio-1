@@ -121,7 +121,7 @@ export const ContactSection = ({ sectionRef }) => {
           <motion.div
             initial={{ opacity: 0, x: -35 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 flex flex-col justify-center"
           >
@@ -251,7 +251,7 @@ export const ContactSection = ({ sectionRef }) => {
           <motion.div
             initial={{ opacity: 0, x: 35 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
             className="lg:col-span-6 relative"
           >

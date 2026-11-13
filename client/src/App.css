@@ -291,3 +291,259 @@ a:focus-visible {
   from { transform: scale(0.5); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* ========================================================
+   MORPH: INFLATING TEXT ANIMATIONS (Jitter-inspired)
+   ======================================================== */
+
+.morph-inflating-quote,
+.morph-inflating-quote * {
+  font-family: 'Algerian', 'Cinzel Decorative', 'Cinzel', serif !important;
+}
+
+.morph-inflating-char {
+  display: inline-block;
+  transform-origin: 50% 90%;
+  will-change: transform, opacity, filter;
+  opacity: 0;
+  animation: morphInflate 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+@keyframes morphInflate {
+  0% {
+    transform: scale(0.08, 0.08) translateY(32px);
+    opacity: 0;
+    filter: blur(8px);
+  }
+  24% {
+    transform: scale(0.55, 1.55) translateY(-18px);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  52% {
+    transform: scale(1.38, 0.78) translateY(8px);
+    opacity: 1;
+  }
+  74% {
+    transform: scale(0.9, 1.14) translateY(-3px);
+  }
+  88% {
+    transform: scale(1.05, 0.96) translateY(1px);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* Post-inflation subtle balloon breathing float */
+.morph-inflating-char.is-inflated {
+  animation: morphBalloonFloat 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes morphBalloonFloat {
+  0% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.025, 1.015);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
+}
+
+/* Playful hover squish & re-inflate balloon pop */
+.morph-inflating-char:hover {
+  animation: morphSquishPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both !important;
+}
+
+@keyframes morphSquishPop {
+  0% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.42, 0.72) translateY(5px);
+  }
+  65% {
+    transform: scale(0.82, 1.28) translateY(-9px);
+  }
+  85% {
+    transform: scale(1.1, 0.94) translateY(1px);
+  }
+  100% {
+    transform: scale(1, 1) translateY(0);
+  }
+}
+
+/* Balloon 3D Glow & Pillowy Shadows */
+.balloon-char-normal {
+  color: #F2F4F8;
+  text-shadow: 
+    0 2px 0 rgba(167, 175, 186, 0.35),
+    0 6px 16px rgba(242, 244, 248, 0.2);
+}
+
+.balloon-char-cyan {
+  color: #38BDF8;
+  text-shadow: 
+    0 2px 0 #0284c7,
+    0 0 16px rgba(56, 189, 248, 0.7),
+    0 0 35px rgba(56, 189, 248, 0.4);
+}
+
+.balloon-char-gold {
+  color: #E5C37A;
+  text-shadow: 
+    0 2px 0 #8C6A28,
+    0 0 16px rgba(200, 164, 92, 0.7),
+    0 0 35px rgba(200, 164, 92, 0.4);
+}
+
+/* About Section Quote Mark Interactivity */
+.quote-mark-anim {
+  display: inline-block;
+  transform-origin: center bottom;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+}
+
+.quote-mark-anim:hover {
+  transform: scale(1.45) translateY(-4px) rotate(-6deg);
+  color: #C8A45C !important;
+  filter: drop-shadow(0 0 12px rgba(200, 164, 92, 0.6));
+}
+
+/* ========================================================
+   3D CARD FLIP UTILITIES (Jitter-inspired)
+   ======================================================== */
+.perspective-1200 {
+  perspective: 1200px;
+  -webkit-perspective: 1200px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+.flip-card-inner {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ========================================================
+   LIQUID GLASS NAVBAR & FALLING WATER / JELLY DROPLETS
+   (Inspired by Guglielmo Giannattasio & 21st.dev)
+   ======================================================== */
+
+.liquid-glass-dock {
+  background: rgba(14, 18, 26, 0.78);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.55),
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(56, 189, 248, 0.08);
+}
+
+/* Active Iridescent Pearlescent Liquid Capsule Pill */
+.liquid-active-pill {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow: 
+    0 4px 18px rgba(56, 189, 248, 0.28),
+    inset 0 1px 2px rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px rgba(168, 85, 247, 0.3);
+}
+
+/* Falling Water & Jelly Droplet */
+.liquid-droplet-falling {
+  position: absolute;
+  left: -5px;
+  top: 0;
+  width: 10px;
+  height: 12px;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), rgba(56, 189, 248, 0.75) 50%, rgba(168, 85, 247, 0.6) 85%);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  border-radius: 50% 50% 60% 60%;
+  animation: jellyDropletFall 0.85s cubic-bezier(0.25, 0.75, 0.45, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes jellyDropletFall {
+  0% {
+    transform: scale(0.6, 0.4) translateY(0);
+    opacity: 0.95;
+    border-radius: 50% 50% 60% 60%;
+  }
+  32% {
+    transform: scale(0.65, 1.55) translateY(12px);
+    opacity: 0.9;
+    border-radius: 35% 35% 65% 65%;
+  }
+  68% {
+    transform: scale(1.15, 0.75) translateY(26px);
+    opacity: 0.75;
+    border-radius: 50%;
+  }
+  88% {
+    transform: scale(1.4, 0.4) translateY(32px);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(1.8, 0.1) translateY(36px);
+    opacity: 0;
+  }
+}
+
+/* Expanding Water Splash / Liquid Ripple Ring */
+.liquid-ripple-ring {
+  position: absolute;
+  left: -14px;
+  top: 30px;
+  width: 28px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(56, 189, 248, 0.8);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+  animation: liquidRippleSpread 0.7s ease-out 0.25s forwards;
+  pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes liquidRippleSpread {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.85;
+    border-color: rgba(56, 189, 248, 0.85);
+  }
+  50% {
+    opacity: 0.45;
+    border-color: rgba(168, 85, 247, 0.6);
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+    border-color: rgba(229, 195, 122, 0);
+  }
+}
+
+
+
+

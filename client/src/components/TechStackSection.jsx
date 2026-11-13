@@ -125,7 +125,7 @@ const FieldMarqueeRow = ({ field, index }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.5, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
       className="group/row flex flex-col md:flex-row md:items-center gap-3 md:gap-6 rounded-2xl border border-[rgba(242,244,248,0.08)] bg-[rgba(16,19,24,0.55)] p-4 sm:px-6 sm:py-4 transition-colors duration-300 hover:border-[rgba(200,164,92,0.28)]"
     >

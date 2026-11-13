@@ -135,7 +135,7 @@ export const AnimatedHeading = ({
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.2 }}
           variants={eyebrowVariants}
           className="mb-3"
         >
@@ -160,7 +160,7 @@ export const AnimatedHeading = ({
           aria-hidden="true"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.2 }}
           variants={containerVariants}
           className="inline-flex flex-wrap items-baseline"
           style={{ justifyContent: align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start' }}
@@ -188,7 +188,7 @@ export const AnimatedHeading = ({
         <motion.p
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.2 }}
           variants={subtitleVariants}
           className="text-[#A7AFBA] text-sm md:text-base mt-4 leading-relaxed font-light"
         >

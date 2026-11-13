@@ -34,23 +34,23 @@ const CERTIFICATION_CATEGORIES = [
     certificates: [
       {
         id: 'hack-sih',
-        title: '',
-        issuer: 'Ministry of Education & AICTE',
-        date: '2024',
-        credentialId: 'SIH-2024-NAT-7749',
+        title: 'OpenAI Codex Hackathon',
+        issuer: 'OpenAI * NamasteDev.com',
+        date: '2026',
+        credentialId: '967EDEB51961331EEA091E4E',
         credentialUrl: 'https://www.sih.gov.in/',
-        type: 'National Finalist',
+        type: 'Top 30%',
         description:
-          'Selected as top finalist in nation-wide innovation hackathon for building an AI-powered automated attendance and anomaly detection platform.',
-        skills: ['AI / Computer Vision', 'FastAPI', 'React', 'Problem Solving']
+          'Selected as top finalist in nation-wide innovation hackathon for building an AI-powered Task Management system.',
+        skills: ['AI / KAI AI', 'Express', 'React', 'Problem Solving']
       },
       {
         id: 'hack-innovatex',
-        title: 'InnovateX 36-Hour National AI Hackathon',
-        issuer: 'InnovateX Tech Guild',
-        date: '2024',
+        title: 'Vibe 2 Ship',
+        issuer: 'Coding Ninjas * Google for Developers',
+        date: '2026',
         credentialId: 'INX-AI-9921-RUNNERUP',
-        credentialUrl: 'https://devpost.com',
+        credentialUrl: 'https://drive.google.com/file/d/1F_fiBr9ZVvL6yphqhw70-4Aj0zOsDSgJ/view?usp=drivesdk',
         type: '1st Runner Up',
         description:
           'Developed TaskTitan-AI, an intelligent productivity coach with deadline-rescue mode, finishing 2nd out of 140+ participating engineering teams.',
@@ -58,12 +58,12 @@ const CERTIFICATION_CATEGORIES = [
       },
       {
         id: 'hack-devpost',
-        title: 'Global AI & Web Innovation Challenge',
-        issuer: 'Devpost & Tech Community',
-        date: '2023',
+        title: 'GGI OpenAI Hackathon',
+        issuer: 'Gulzar Group Of Institutes',
+        date: '2025',
         credentialId: 'DEVPOST-GLB-5531',
-        credentialUrl: 'https://devpost.com',
-        type: 'Top 10 Global',
+        credentialUrl: 'https://github.com/singh-yuvraj1/task-management',
+        type: 'Top 5%',
         description:
           'Engineered HireMind-AI, an intelligent ATS & interview simulation platform that prepares students for modern engineering hiring loops.',
         skills: ['NLP', 'React', 'Node.js', 'Tailwind CSS']
@@ -94,38 +94,38 @@ const CERTIFICATION_CATEGORIES = [
     certificates: [
       {
         id: 'univ-coding-champ',
-        title: 'Annual Code Champion - 1st Place',
+        title: 'Codathon - 1st Position',
         issuer: 'RIMT University | Department of CSE',
-        date: '2024',
-        credentialId: 'RIMT-CSE-CHAMP-2024',
+        date: '2026',
+        credentialId: 'RIMT-CSE-CHAMP-2026',
         credentialUrl: 'https://rimt.ac.in/',
-        type: 'Gold Medalist',
+        type: '1st Position',
         description:
           'Clinched 1st place in university-wide annual coding contest featuring rigorous algorithmic problem solving and time-constrained competitive programming.',
-        skills: ['C++', 'Data Structures', 'Algorithms', 'Optimization']
+        skills: ['Python', 'Data Structures', 'Algorithms', 'Optimization']
       },
       {
         id: 'univ-expo',
-        title: 'Technical Fest Project Expo Winner',
-        issuer: 'State Inter-University Tech Fest',
-        date: '2024',
+        title: 'Brain VS Brawn',
+        issuer: 'RIMT University',
+        date: '2025',
         credentialId: 'TECHFEST-EXPO-1092',
         credentialUrl: 'https://rimt.ac.in/',
-        type: 'Winner - Best Engineering Project',
+        type: '2nd Position',
         description:
-          'Showcased real-world AI-driven attendance and analytics system to industry judges and academic leads.',
-        skills: ['Full-Stack Engineering', 'Live Demonstration', 'Product Management']
+          'Solved complex data structure and algorithm problems in real-time.',
+        skills: ['Python', 'Data Structures', 'Algorithms', 'Optimization']
       },
       {
         id: 'univ-dsa-bowl',
-        title: 'Inter-University Algorithmic Bowl',
-        issuer: 'Punjab Engineering Collegiate League',
-        date: '2023',
+        title: 'Code Quest',
+        issuer: 'RIMT University',
+        date: '2025',
         credentialId: 'PECL-DSA-BOWL-441',
         credentialUrl: 'https://rimt.ac.in/',
-        type: 'Rank #2 Overall',
+        type: '2nd Position',
         description:
-          'Competed among top 50 university coders in speed graph algorithms, dynamic programming, and memory-constrained puzzles.',
+          'Competed among top 50 coders in speed graph algorithms, dynamic programming, and memory-constrained puzzles.',
         skills: ['Dynamic Programming', 'Graph Theory', 'Time Complexity']
       },
       {
@@ -542,7 +542,13 @@ export const CertificationsSection = ({ sectionRef }) => {
         </div>
 
         {/* Full-Coverage Fanned 3D Stacked Card-Deck Carousel Stage */}
-        <div className="relative w-full h-[540px] sm:h-[600px] lg:h-[640px] flex items-center justify-center select-none">
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.15 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full h-[540px] sm:h-[600px] lg:h-[640px] flex items-center justify-center select-none"
+        >
           {/* Left Navigation Arrow */}
           <button
             type="button"
@@ -616,11 +622,10 @@ export const CertificationsSection = ({ sectionRef }) => {
                   onClick={() => {
                     if (!isActive) setActiveIndex(index);
                   }}
-                  className={`absolute w-[92vw] sm:w-[640px] md:w-[740px] lg:w-[820px] h-[520px] sm:h-[575px] lg:h-[600px] rounded-3xl border overflow-hidden shadow-[0_32px_95px_rgba(0,0,0,0.82)] transition-colors duration-300 ${
-                    isActive
+                  className={`absolute w-[92vw] sm:w-[640px] md:w-[740px] lg:w-[820px] h-[520px] sm:h-[575px] lg:h-[600px] rounded-3xl border overflow-hidden shadow-[0_32px_95px_rgba(0,0,0,0.82)] transition-colors duration-300 ${isActive
                       ? 'cursor-grab border-[rgba(200,164,92,0.35)] bg-[#13161C]'
                       : 'cursor-pointer border-[rgba(242,244,248,0.14)] bg-[#0F1116]'
-                  }`}
+                    }`}
                 >
                   {/* Top Category Color Glow & Border Line */}
                   <div
@@ -734,7 +739,7 @@ export const CertificationsSection = ({ sectionRef }) => {
               );
             })}
           </div>
-        </div>
+        </motion.div>
 
         {/* Bottom Track Switcher & Mobile Nav */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -769,9 +774,8 @@ export const CertificationsSection = ({ sectionRef }) => {
                   key={cat.id}
                   type="button"
                   onClick={() => setActiveIndex(idx)}
-                  className={`relative flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono transition-colors duration-200 ${
-                    isSelected ? 'text-[#0B0C0F] font-bold' : 'text-[#A7AFBA] hover:text-[#F2F4F8]'
-                  }`}
+                  className={`relative flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono transition-colors duration-200 ${isSelected ? 'text-[#0B0C0F] font-bold' : 'text-[#A7AFBA] hover:text-[#F2F4F8]'
+                    }`}
                 >
                   {isSelected && (
                     <motion.div

@@ -130,7 +130,7 @@ const ProjectCard = ({ project, index, total }) => {
     <motion.article
       initial={{ opacity: 0, x: initialX, y: 35, scale: 0.98 }}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.22 }}
+      viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
       className="w-full relative z-10"
     >

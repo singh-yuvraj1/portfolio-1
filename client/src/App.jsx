@@ -24,8 +24,11 @@ import CertificationsSection from './components/CertificationsSection';
 import TechStackSection from './components/TechStackSection';
 import BadgesShowcaseSection from './components/BadgesShowcaseSection';
 import ProjectsSection from './components/ProjectsSection';
+import ExperienceSection from './components/ExperienceSection';
 import ContactSection from './components/ContactSection';
 import AnimatedHeading from './components/ui/AnimatedHeading';
+import MorphInflatingQuote from './components/ui/MorphInflatingQuote';
+import LiquidGlassNavbar from './components/ui/LiquidGlassNavbar';
 import './App.css';
 
 // Production-safe image asset imports
@@ -36,16 +39,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [copied, setCopied] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const scrollToSectionMobile = (ref) => {
-    setMobileMenuOpen(false);
-    setTimeout(() => ref.current?.scrollIntoView({ behavior: 'smooth' }), 300);
-  };
   const heroRef = useRef(null);
   const workRef = useRef(null);
   const aboutRef = useRef(null);
+  const experienceRef = useRef(null);
   const techStackRef = useRef(null);
   const certificationsRef = useRef(null);
   const testimonialsRef = useRef(null);
@@ -84,53 +82,48 @@ function App() {
     };
   }, []);
 
-  // Preloader logic — cinematic quote displayed for 4.8s with smooth exit transition
+  // Preloader logic — cinematic inflating quote displayed with smooth exit transition
   useEffect(() => {
     document.body.style.overflow = 'hidden'; // Lock scroll during loading
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
-      // Smooth entrance with subtle blur dissolve
+      // Smooth entrance for badge
       tl.fromTo(
         '.preloader-badge',
         { opacity: 0, y: -10 },
         { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', delay: 0.2 }
       )
-      .fromTo(
-        '.preloader-quote',
-        { opacity: 0, y: 24, filter: 'blur(12px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2, ease: 'power3.out' },
-        '-=0.5'
-      )
+      // Author attribution enters right as the balloon inflation wave finishes
       .fromTo(
         '.preloader-author',
-        { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' },
-        '-=0.4'
+        { opacity: 0, y: 16, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out' },
+        '+=1.8'
       )
       .fromTo(
         '.preloader-progress',
         { scaleX: 0 },
-        { scaleX: 1, duration: 2.8, ease: 'power1.inOut' },
-        '-=0.6'
+        { scaleX: 1, duration: 4.4, ease: 'power1.inOut' },
+        0.3
       )
       // Gentle text outro dissolve before curtain slides away
-      .to(['.preloader-badge', '.preloader-quote', '.preloader-author', '.preloader-progress-track'], {
+      .to(['.preloader-badge', '.morph-inflating-quote', '.preloader-author', '.preloader-progress-track'], {
         opacity: 0,
         y: -16,
         filter: 'blur(8px)',
         duration: 0.8,
         ease: 'power2.inOut',
-        delay: 0.3
+        delay: 0.4
       });
     });
 
-    // Stays visible for ~4.8 seconds then triggers the smooth curtain transition
+    // Stays visible for ~5.4 seconds then triggers the smooth curtain transition
     const timer = setTimeout(() => {
       setIsLoaded(true);
       document.body.style.overflow = ''; // Unlock scroll
-    }, 4800);
+    }, 5400);
 
     return () => {
       clearTimeout(timer);
@@ -331,23 +324,21 @@ function App() {
             </span>
           </div>
 
-          {/* Main Requested Quote */}
-          <blockquote className="preloader-quote text-[clamp(22px,3.4vw,40px)] font-medium leading-[1.3] tracking-[-0.01em] text-[#F2F4F8] max-w-3xl">
-            <span className="text-[#C8A45C] font-serif text-[1.25em] mr-1.5">“</span>
-            A developer who knows how to build, not just those who know how to code
-            <span className="text-[#C8A45C] font-serif text-[1.25em] ml-1.5">”</span>
-          </blockquote>
+          {/* Morph: Inflating Balloon Manifesto Quote (Jitter-inspired) */}
+          <div className="w-full my-2">
+            <MorphInflatingQuote />
+          </div>
 
           {/* Author Attribution */}
           <p className="preloader-author font-mono text-xs sm:text-sm md:text-base text-[#A7AFBA] mt-6 sm:mt-7 tracking-[0.16em] uppercase flex items-center justify-center gap-3">
             <span className="w-8 sm:w-12 h-[1px] bg-[#C8A45C]/50" />
-            <span className="text-[#E5C37A] font-semibold">S. Yuvraj Singh</span>
+            <span className="text-[#C8A45C] font-semibold">S. Yuvraj Singh</span>
             <span className="w-8 sm:w-12 h-[1px] bg-[#C8A45C]/50" />
           </p>
 
           {/* Minimal Elegant Timer / Progress Bar */}
           <div className="preloader-progress-track w-40 sm:w-52 h-[2px] bg-[rgba(242,244,248,0.08)] rounded-full mt-8 sm:mt-10 overflow-hidden">
-            <div className="preloader-progress w-full h-full bg-gradient-to-r from-[#C8A45C]/40 via-[#E5C37A] to-[#C8A45C]/40 origin-left" />
+            <div className="preloader-progress w-full h-full bg-gradient-to-r from-[#C8A45C]/40 via-[#E8C87C] to-[#C8A45C]/40 origin-left" />
           </div>
         </div>
 
@@ -369,72 +360,26 @@ function App() {
         {/* Glitter particles */}
         <div ref={glitterRef} className="fixed inset-0 pointer-events-none z-10 overflow-hidden" />
 
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 px-[6vw] py-6 flex justify-between items-center bg-gradient-to-b from-[#0B0C0F] to-transparent">
-          <div className="font-mono text-xs tracking-[0.18em] text-[#F2F4F8]">
-            S.YUVRAJ SINGH
-          </div>
-          <div className="hidden md:flex gap-8">
-            {[
-              { label: 'Work', ref: workRef },
-              { label: 'About', ref: aboutRef },
-              { label: 'Certifications', ref: certificationsRef },
-              { label: 'Contact', ref: contactRef }
-            ].map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.ref)}
-                className="font-mono text-xs tracking-[0.18em] text-[#A7AFBA] hover:text-[#C8A45C] transition-colors duration-300"
-              >
-                {item.label}
-              </button>
-            ))}
-            <a
-              href="https://drive.google.com/file/d/1uYP4oG0wECtcAfMej1FFGQHrTrqD1PkY/view?usp=drivesdk"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-xs tracking-[0.18em] text-[#A7AFBA] hover:text-[#C8A45C] transition-colors duration-300"
-            >
-              RESUME
-            </a>
-          </div>
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-[#F2F4F8] hover:text-[#C8A45C] transition-colors z-[60]"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </nav>
+        {/* Top Floating Glass Brand Tag (Desktop) */}
+        <div className="fixed top-5 left-6 z-40 hidden lg:flex items-center gap-2.5 font-mono text-xs tracking-[0.18em] text-[#F2F4F8]/85 backdrop-blur-xl px-4 py-2 rounded-full border border-white/10 bg-[rgba(14,18,26,0.65)] shadow-lg select-none pointer-events-auto">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45C]" />
+          <span>S. YUVRAJ SINGH</span>
+        </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 z-[55] bg-[#0B0C0F]/98 backdrop-blur-md flex flex-col items-center justify-center gap-8 transition-all duration-500 md:hidden ${mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-          }`}>
-          {[
-            { label: 'Work', ref: workRef },
-            { label: 'About', ref: aboutRef },
-            { label: 'Certifications', ref: certificationsRef },
-            { label: 'Contact', ref: contactRef }
-          ].map((item, i) => (
-            <button
-              key={item.label}
-              onClick={() => scrollToSectionMobile(item.ref)}
-              className="font-mono text-lg tracking-[0.18em] text-[#A7AFBA] hover:text-[#C8A45C] transition-all duration-300"
-              style={{ transitionDelay: mobileMenuOpen ? `${i * 80}ms` : '0ms', transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(20px)', opacity: mobileMenuOpen ? 1 : 0 }}
-            >
-              {item.label}
-            </button>
-          ))}
-          <a
-            href="https://drive.google.com/file/d/1uYP4oG0wECtcAfMej1FFGQHrTrqD1PkY/view?usp=drivesdk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-lg tracking-[0.18em] text-[#C8A45C] hover:text-[#D4B76A] transition-all duration-300"
-            style={{ transitionDelay: mobileMenuOpen ? '320ms' : '0ms', transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(20px)', opacity: mobileMenuOpen ? 1 : 0 }}
-          >
-            RESUME
-          </a>
+        {/* Liquid Glass Floating Capsule Navbar with Falling Jelly Water Droplets */}
+        <LiquidGlassNavbar
+          heroRef={heroRef}
+          workRef={workRef}
+          aboutRef={aboutRef}
+          experienceRef={experienceRef}
+          certificationsRef={certificationsRef}
+          contactRef={contactRef}
+        />
+
+        {/* Top Floating Availability Radar Tag (Desktop) */}
+        <div className="fixed top-5 right-6 z-40 hidden lg:flex items-center gap-2 font-mono text-[11px] tracking-[0.15em] text-[#A7AFBA] backdrop-blur-xl px-3.5 py-2 rounded-full border border-white/10 bg-[rgba(14,18,26,0.65)] shadow-lg select-none pointer-events-auto">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="uppercase text-[10px] text-[#F2F4F8]/90 font-medium">Available</span>
         </div>
 
         {/* Section 1: Hero */}
@@ -606,6 +551,9 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* Section 3.2: Experience & Leadership */}
+        <ExperienceSection sectionRef={experienceRef} />
 
         {/* Section 3.5: Tech Stack */}
         <TechStackSection sectionRef={techStackRef} />
