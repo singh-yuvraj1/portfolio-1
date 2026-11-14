@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, ChevronDown, Sparkles } from 'lucide-react';
 import AnimatedHeading from './ui/AnimatedHeading';
@@ -92,7 +92,7 @@ export const PROJECTS_DATA = [
 ];
 
 // Interactive 3D Tilt Project Card with Alternating Layout & Direction-Aware Entrance Animation
-const ProjectCard = ({ project, index, total }) => {
+const ProjectCard = ({ project, index, total, isHighlighted }) => {
   const cardRef = useRef(null);
   const [tiltStyle, setTiltStyle] = useState({});
 
@@ -128,12 +128,23 @@ const ProjectCard = ({ project, index, total }) => {
 
   return (
     <motion.article
+      id={`project-${project.id}`}
       initial={{ opacity: 0, x: initialX, y: 35, scale: 0.98 }}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
       viewport={{ once: false, amount: 0.2 }}
       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-      className="w-full relative z-10"
+      className={`w-full relative z-10 transition-all duration-500 rounded-3xl ${
+        isHighlighted
+          ? 'ring-2 ring-[#C8A45C] shadow-[0_0_50px_rgba(200,164,92,0.45)] scale-[1.01]'
+          : ''
+      }`}
     >
+      {isHighlighted && (
+        <div className="absolute -top-3 left-6 sm:left-10 z-30 px-3.5 py-1 rounded-full bg-[#C8A45C] text-[#0B0C0F] font-mono text-[10px] font-bold uppercase tracking-wider shadow-xl flex items-center gap-1.5 animate-bounce">
+          <Sparkles size={11} />
+          <span>Voice Selected Project</span>
+        </div>
+      )}
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -273,6 +284,34 @@ const ConnectingLine = ({ nextNumber }) => {
 };
 
 export const ProjectsSection = ({ sectionRef }) => {
+  const [highlightedId, setHighlightedId] = useState(null);
+
+  useEffect(() => {
+    const handleVoiceProject = (e) => {
+      const { projectId, action } = e.detail || {};
+      if (!projectId) return;
+
+      const project = PROJECTS_DATA.find((p) => p.id === projectId);
+      if (!project) return;
+
+      const element = document.getElementById(`project-${projectId}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setHighlightedId(projectId);
+        setTimeout(() => setHighlightedId(null), 4000);
+
+        if (action === 'live' && project.live) {
+          window.open(project.live, '_blank', 'noopener,noreferrer');
+        } else if (action === 'github' && project.github) {
+          window.open(project.github, '_blank', 'noopener,noreferrer');
+        }
+      }
+    };
+
+    window.addEventListener('voice-open-project', handleVoiceProject);
+    return () => window.removeEventListener('voice-open-project', handleVoiceProject);
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -303,6 +342,7 @@ export const ProjectsSection = ({ sectionRef }) => {
                   project={project}
                   index={index}
                   total={PROJECTS_DATA.length}
+                  isHighlighted={highlightedId === project.id}
                 />
 
                 {/* 2. Scroll-Triggered Animated Line Leading to the Next Project */}

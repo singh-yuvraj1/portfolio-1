@@ -389,11 +389,11 @@ a:focus-visible {
 }
 
 .balloon-char-cyan {
-  color: #38BDF8;
+  color: #E5C37A;
   text-shadow: 
-    0 2px 0 #0284c7,
-    0 0 16px rgba(56, 189, 248, 0.7),
-    0 0 35px rgba(56, 189, 248, 0.4);
+    0 2px 0 #8C6A28,
+    0 0 16px rgba(200, 164, 92, 0.7),
+    0 0 35px rgba(200, 164, 92, 0.4);
 }
 
 .balloon-char-gold {
@@ -543,6 +543,24 @@ a:focus-visible {
     border-color: rgba(229, 195, 122, 0);
   }
 }
+
+/* ========================================================
+   BESPOKE ANIMATED CURSOR INTERACTIVITY
+   ======================================================== */
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled a,
+  body.custom-cursor-enabled button,
+  body.custom-cursor-enabled input,
+  body.custom-cursor-enabled textarea,
+  body.custom-cursor-enabled select,
+  body.custom-cursor-enabled [role="button"],
+  body.custom-cursor-enabled .project-card,
+  body.custom-cursor-enabled .flip-card-inner {
+    cursor: none !important;
+  }
+}
+
 
 
 

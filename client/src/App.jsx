@@ -29,6 +29,8 @@ import ContactSection from './components/ContactSection';
 import AnimatedHeading from './components/ui/AnimatedHeading';
 import MorphInflatingQuote from './components/ui/MorphInflatingQuote';
 import LiquidGlassNavbar from './components/ui/LiquidGlassNavbar';
+import AnimatedCursor from './components/ui/AnimatedCursor';
+import VoiceAIAgent from './components/ui/VoiceAIAgent';
 import './App.css';
 
 // Production-safe image asset imports
@@ -306,6 +308,9 @@ function App() {
 
   return (
     <>
+      {/* Bespoke Luxury Animated Cursor with Spring Ring & Comet Trail */}
+      <AnimatedCursor />
+
       {/* Cinematic Quote Preloader Screen */}
       <div
         className={`fixed inset-0 z-[9999] bg-[#0B0C0F] flex flex-col items-center justify-center px-6 transition-all duration-1200 ease-smooth-out select-none ${
@@ -476,7 +481,7 @@ function App() {
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               <div className="about-image relative w-full max-w-[500px] lg:max-w-[530px] mx-auto lg:mx-0">
                 {/* Subtle Ambient Gold Glow Behind Photo */}
-                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[#C8A45C]/20 via-transparent to-[#38BDF8]/10 blur-xl opacity-75" />
+                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-[#C8A45C]/25 via-transparent to-[#E5C37A]/20 blur-xl opacity-75" />
 
                 <div className="relative rounded-3xl p-2.5 border border-[rgba(200,164,92,0.28)] bg-[rgba(16,19,26,0.6)] backdrop-blur-md shadow-[0_25px_80px_rgba(0,0,0,0.65)]">
                   <div className="image-gold-tint rounded-2xl overflow-hidden w-full h-[470px] sm:h-[540px] lg:h-[600px]">
@@ -568,6 +573,18 @@ function App() {
 
         {/* Section 7: Animated Contact Hub & Footer */}
         <ContactSection sectionRef={contactRef} />
+
+        {/* Interactive AI Voice Navigation Agent */}
+        <VoiceAIAgent
+          heroRef={heroRef}
+          workRef={workRef}
+          aboutRef={aboutRef}
+          experienceRef={experienceRef}
+          techStackRef={techStackRef}
+          certificationsRef={certificationsRef}
+          testimonialsRef={testimonialsRef}
+          contactRef={contactRef}
+        />
       </div>
     </>
   );

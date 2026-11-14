@@ -15,7 +15,7 @@ const QUOTE_WORDS = [
   { word: "knows", type: "normal" },
   { word: "how", type: "normal" },
   { word: "to", type: "normal" },
-  { word: "build,", type: "cyan" }, // Electric cyan balloon style from Jitter template
+  { word: "build,", type: "gold" }, // Warm gold signature styling
   { word: "not", type: "normal" },
   { word: "just", type: "normal" },
   { word: "those", type: "normal" },
@@ -100,7 +100,7 @@ export const MorphInflatingQuote = ({ onComplete }) => {
       {/* Interactive Helper & Replay Bar */}
       <div className="mt-4 flex items-center justify-center gap-3">
         <span className="font-mono text-[10px] text-[#A7AFBA]/60 tracking-wider uppercase inline-flex items-center gap-1.5">
-          <Sparkles size={11} className="text-[#38BDF8] animate-pulse" />
+          <Sparkles size={11} className="text-[#C8A45C] animate-pulse" />
         </span>
         <button
           type="button"

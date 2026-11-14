@@ -31,7 +31,7 @@ export const INTERNSHIP_CERTIFICATE = {
   period: '45 Days Intensive Training',
   image: null, // e.g. '/certificates/ansh-infotech.jpg' or import certImg from '../assets/cert.jpg'
   credentialId: 'AIT-MERN-2026',
-  accent: '#38BDF8'
+  accent: '#C8A45C'
 };
 
 /**
@@ -58,7 +58,7 @@ export const REWARDS_FLIP_CARD = {
     category: 'Tenure Rewards',
     description: 'Special community recognition rewards, premium drinkware, exclusive swag packs, and achievement tokens.',
     image: null, // e.g. '/rewards/gfg-goodies.jpg' or import goodiesImg from '../assets/goodies.jpg'
-    accent: '#38BDF8',
+    accent: '#E5C37A',
     faceName: 'Side B • Back Face',
     tag: 'SLOT 02 / BACK'
   }
@@ -92,6 +92,19 @@ export const ExperienceSection = ({ sectionRef }) => {
     setIsFlipped((prev) => !prev);
     setDirectionIdx((prev) => (prev + 1) % FLIP_DIRECTIONS.length);
   };
+
+  // Voice AI Event Listener to Flip Card
+  useEffect(() => {
+    const handleVoiceFlip = () => {
+      handleManualFlip();
+      if (sectionRef && sectionRef.current) {
+        sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    };
+
+    window.addEventListener('voice-flip-experience', handleVoiceFlip);
+    return () => window.removeEventListener('voice-flip-experience', handleVoiceFlip);
+  }, [sectionRef]);
 
   const getContainerTransform = () => {
     if (!isFlipped) {
@@ -133,8 +146,8 @@ export const ExperienceSection = ({ sectionRef }) => {
       className="relative w-full py-20 sm:py-24 px-[4vw] md:px-[6vw] z-30 bg-[#0B0C0F] overflow-hidden"
     >
       {/* Subtle Background Glows */}
-      <div className="pointer-events-none absolute -top-28 left-1/4 w-[420px] h-[420px] rounded-full bg-[#38BDF8]/10 blur-[140px]" />
-      <div className="pointer-events-none absolute bottom-8 right-1/4 w-[400px] h-[400px] rounded-full bg-[#00E5FF]/10 blur-[140px]" />
+      <div className="pointer-events-none absolute -top-28 left-1/4 w-[420px] h-[420px] rounded-full bg-[#C8A45C]/10 blur-[140px]" />
+      <div className="pointer-events-none absolute bottom-8 right-1/4 w-[400px] h-[400px] rounded-full bg-[#E5C37A]/10 blur-[140px]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto">
         {/* Kinetic Section Header */}
@@ -478,7 +491,7 @@ export const ExperienceSection = ({ sectionRef }) => {
                     </div>
 
                     <div className="shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[rgba(200,164,92,0.2)] bg-[rgba(200,164,92,0.06)] text-[#C8A45C] font-mono text-[10px]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45C] animate-pulse" />
                       <span>{isHovered ? 'Click to Flip' : 'Auto 3D Flip'}</span>
                     </div>
                   </div>
@@ -548,7 +561,7 @@ export const ExperienceSection = ({ sectionRef }) => {
                     </div>
 
                     <div className="shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[rgba(200,164,92,0.2)] bg-[rgba(200,164,92,0.06)] text-[#C8A45C] font-mono text-[10px]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45C] animate-pulse" />
                       <span>{isHovered ? 'Click to Flip' : 'Auto 3D Flip'}</span>
                     </div>
                   </div>

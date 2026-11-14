@@ -80,7 +80,7 @@ export const ContactSection = ({ sectionRef }) => {
             repeat: Infinity,
             ease: 'easeInOut'
           }}
-          className="absolute top-1/3 -right-24 w-[520px] h-[520px] rounded-full bg-[#38BDF8]/10 blur-[150px]"
+          className="absolute top-1/3 -right-24 w-[520px] h-[520px] rounded-full bg-[#C8A45C]/10 blur-[150px]"
         />
 
         {/* Deep Violet Center Ambient Halo */}
@@ -193,7 +193,7 @@ export const ContactSection = ({ sectionRef }) => {
               {/* Location & Live Clock Card */}
               <div className="flex items-center justify-between gap-4 p-4 rounded-2xl border border-[rgba(242,244,248,0.09)] bg-[rgba(16,19,26,0.6)] backdrop-blur-md">
                 <div className="flex items-center gap-3.5 min-w-0">
-                  <div className="w-10 h-10 rounded-xl bg-[#38BDF8]/15 border border-[#38BDF8]/30 flex items-center justify-center text-[#38BDF8] shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#C8A45C]/15 border border-[#C8A45C]/30 flex items-center justify-center text-[#C8A45C] shrink-0">
                     <MapPin size={18} />
                   </div>
                   <div className="min-w-0">
@@ -207,7 +207,7 @@ export const ContactSection = ({ sectionRef }) => {
                 </div>
 
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[rgba(242,244,248,0.08)] bg-[#0B0C0F]/80 text-xs font-mono text-[#A7AFBA] shrink-0">
-                  <Clock size={13} className="text-[#38BDF8]" />
+                  <Clock size={13} className="text-[#C8A45C]" />
                   <span>{currentTime || 'IST'}</span>
                 </div>
               </div>
@@ -256,7 +256,7 @@ export const ContactSection = ({ sectionRef }) => {
             className="lg:col-span-6 relative"
           >
             {/* Glowing Backdrop Frame */}
-            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#C8A45C]/25 via-transparent to-[#38BDF8]/20 blur-xl opacity-60" />
+            <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#C8A45C]/25 via-transparent to-[#E5C37A]/20 blur-xl opacity-60" />
 
             <div className="relative rounded-2xl md:rounded-3xl border border-[rgba(200,164,92,0.3)] bg-[rgba(14,17,23,0.85)] p-2 sm:p-3 shadow-[0_24px_80px_rgba(0,0,0,0.65)] backdrop-blur-xl">
               <ContactForm />

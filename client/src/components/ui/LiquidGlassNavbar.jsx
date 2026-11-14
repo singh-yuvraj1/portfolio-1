@@ -204,16 +204,16 @@ export const LiquidGlassNavbar = ({
                         mass: 0.8
                       }}
                     >
-                      {/* Iridescent Liquid Edge Highlights */}
-                      <span className="absolute inset-0 rounded-full border border-[rgba(255,255,255,0.35)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_0_16px_rgba(56,189,248,0.3)]" />
-                      <span className="absolute -inset-[1px] rounded-full bg-gradient-to-r from-[#A855F7]/25 via-[#38BDF8]/30 to-[#E5C37A]/25 blur-[1px] -z-10" />
+                      {/* Warm Gold Iridescent Liquid Edge Highlights */}
+                      <span className="absolute inset-0 rounded-full border border-[rgba(255,255,255,0.35)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_0_18px_rgba(200,164,92,0.45)]" />
+                      <span className="absolute -inset-[1px] rounded-full bg-gradient-to-r from-[#C8A45C]/35 via-[#E5C37A]/40 to-[#C8A45C]/25 blur-[1px] -z-10" />
                     </motion.div>
                   )}
 
                   <Icon
                     size={14}
                     className={`transition-all duration-300 ${
-                      isActive ? 'text-[#38BDF8] scale-110 drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]' : 'text-[#A7AFBA]'
+                      isActive ? 'text-[#C8A45C] scale-110 drop-shadow-[0_0_8px_rgba(200,164,92,0.8)]' : 'text-[#A7AFBA]'
                     }`}
                   />
                   <span className={`${isActive ? 'inline' : 'hidden sm:inline'} tracking-wider`}>
@@ -266,7 +266,7 @@ export const LiquidGlassNavbar = ({
           >
             <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#C8A45C] px-3 pb-2 border-b border-white/5 flex items-center justify-between">
               <span>Navigation</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#38BDF8] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45C] animate-pulse" />
             </div>
 
             {navItems.map((item) => {
@@ -300,7 +300,7 @@ export const LiquidGlassNavbar = ({
                       : 'text-[#A7AFBA] hover:bg-white/5'
                   }`}
                 >
-                  <Icon size={16} className={isActive ? 'text-[#38BDF8]' : 'text-[#A7AFBA]'} />
+                  <Icon size={16} className={isActive ? 'text-[#C8A45C]' : 'text-[#A7AFBA]'} />
                   <span>{item.label}</span>
                 </button>
               );

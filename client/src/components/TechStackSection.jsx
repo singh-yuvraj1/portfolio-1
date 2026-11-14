@@ -29,7 +29,7 @@ const TECH_FIELDS = [
     id: 'frontend',
     category: 'Frontend',
     icon: Layers,
-    color: '#60A5FA',
+    color: '#C8A45C',
     direction: 'right',
     baseDuration: 36, // at 0.5x => 72s
     skills: [

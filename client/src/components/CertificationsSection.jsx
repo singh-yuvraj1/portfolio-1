@@ -70,15 +70,15 @@ const CERTIFICATION_CATEGORIES = [
       },
       {
         id: 'hack-web-blitz',
-        title: '24-Hour Web Blitz Hackathon',
-        issuer: 'Developer Student Club',
-        date: '2023',
-        credentialId: 'DSC-BLITZ-2023-01',
+        title: 'Meta PyTorch openEnv Hackathon ',
+        issuer: 'Scaler School of technology * Unstop',
+        date: '2025',
+        credentialId: 'METAPYT-OPENV-8752',
         credentialUrl: 'https://github.com/singh-yuvraj1',
-        type: 'Best UI/UX Award',
+        type: 'Top 30%',
         description:
-          'Awarded for extraordinary frontend aesthetics, smooth GSAP micro-interactions, and accessible UI in high-speed product sprint.',
-        skills: ['GSAP Animations', 'UI/UX Design', 'Full-Stack Web']
+          'A hackathon participation where i have build pandemic report generator using ML.',
+        skills: ['Machine Learning', 'Frontend', 'Backend']
       }
     ]
   },
@@ -125,7 +125,7 @@ const CERTIFICATION_CATEGORIES = [
         credentialUrl: 'https://rimt.ac.in/',
         type: '2nd Position',
         description:
-          'Competed among top 50 coders in speed graph algorithms, dynamic programming, and memory-constrained puzzles.',
+          'Competed among top 100+ coders in speed graph algorithms, dynamic programming, and memory-constrained puzzles.',
         skills: ['Dynamic Programming', 'Graph Theory', 'Time Complexity']
       },
       {
@@ -154,117 +154,130 @@ const CERTIFICATION_CATEGORIES = [
     certificates: [
       {
         id: 'gfg-rank1',
-        title: 'GeeksforGeeks Institute Rank #1',
+        title: 'Javasciprt Mastery',
         issuer: 'GeeksforGeeks',
-        date: '2024',
+        date: '2026',
         credentialId: 'GFG-INST-RIMT-R1',
         credentialUrl: 'https://www.geeksforgeeks.org/',
-        type: 'Campus Leader Badge',
+        type: 'Master Badge',
         description:
           'Achieved #1 ranking across the entire university campus on GeeksforGeeks for overall coding score, contest performances, and problems solved.',
         skills: ['Algorithms', 'Data Structures', 'Competitive Coding']
       },
       {
         id: 'gfg-160',
-        title: 'GfG 160-Day Problem Solving Master',
+        title: 'React.js Mastery',
         issuer: 'GeeksforGeeks',
-        date: '2024',
-        credentialId: 'GFG-160-STREAK-MASTER',
+        date: '2025',
+        credentialId: 'GFG-REACT-MASTER',
         credentialUrl: 'https://www.geeksforgeeks.org/',
         type: 'Master Certification',
         description:
-          'Completed 160 consecutive days of advanced problem solving covering arrays, trees, dynamic programming, heaps, and graph algorithms.',
-        skills: ['Tree Traversal', 'Recursion & Backtracking', 'Greedy Algorithms']
+          'Learned core React concepts including components, props, state, hooks, and routing, completing the full official curriculum.',
+        skills: ['Components & Props', 'State Management', 'Hooks', 'React Router']
+      },
+      {
+        id: 'gfg-nodejs',
+        title: 'Node.js Mastery',
+        issuer: 'GeeksforGeeks',
+        date: '2025',
+        credentialId: 'GFG-NODE-MASTER',
+        credentialUrl: 'https://www.geeksforgeeks.org/',
+        type: 'Master Certification',
+        description:
+          'Learned core Node.js concepts.',
+        skills: ['Node.js', 'Express.js', 'MongoDB', 'APIs']
       },
       {
         id: 'lc-streak',
-        title: 'LeetCode Problem Solving & Streak Badge',
-        issuer: 'LeetCode',
-        date: '2024',
-        credentialId: 'LC-SOLVER-50D-GOLD',
-        credentialUrl: 'https://leetcode.com',
+        title: ' Data Structures and Algorithms Mastery',
+        issuer: 'GeeksforGeeks',
+        date: '2026',
+        credentialId: 'GFG-DSA-50D-GOLD',
+        credentialUrl: 'https://www.geeksforgeeks.org/',
         type: 'Consistent Solver',
         description:
           'Consistently tackled Medium/Hard algorithmic challenges, optimizing time and space complexity across high-frequency interview questions.',
-        skills: ['Bit Manipulation', 'Binary Search', 'Sliding Window', 'Two Pointers']
+        skills: ['Arrays', 'Hashmaps', 'Sorting', 'Binary Search', 'Sliding Window', 'Two Pointers']
       },
+      
       {
         id: 'hr-gold',
-        title: 'HackerRank 5-Star Problem Solving',
-        issuer: 'HackerRank',
-        date: '2023',
-        credentialId: 'HR-PS-GOLD-5STAR',
-        credentialUrl: 'https://www.hackerrank.com',
+        title: 'DSA project Based Learning',
+        issuer: 'GeeksforGeeks',
+        date: '2026',
+        credentialId: 'GFG-PBL-2026',
+        credentialUrl: 'https://www.geeksforgeeks.org/',
         type: '5-Star Gold Badge',
         description:
           'Earned the highest 5-star gold proficiency badge in core problem solving and algorithm analysis on HackerRank.',
-        skills: ['Problem Solving', 'Data Structure Design', 'Complexity Analysis']
+        skills: ['Backtracking', 'Trie', 'Greedy Algorithms', 'Graph']
       }
     ]
   },
   {
     id: 'cloud-web',
-    title: 'Cloud & Full-Stack Development',
+    title: 'Extra Certifications',
     badge: 'Architecture & Platforms',
     icon: Cloud,
     highlight: 'Production Standards',
-    color: '#60A5FA',
+    color: '#C8A45C',
     description:
       'Enterprise web architecture, responsive modern design systems, REST API integration, and cloud deployment pipelines.',
     certificates: [
       {
         id: 'cloud-aws',
-        title: 'AWS Cloud Practitioner & Foundations',
-        issuer: 'Amazon Web Services / Training Partner',
-        date: '2024',
-        credentialId: 'AWS-FOUND-TR-8820',
+        title: 'QuizVerse 2026',
+        issuer: 'Unstop * TechVerse Solutions',
+        date: '2026',
+        credentialId: 'QUIZVERSE-2026-1092',
         credentialUrl: 'https://aws.amazon.com/certification/',
-        type: 'Cloud Verified',
+        type: 'Quiz Participation',
         description:
-          'Comprehensive validation of AWS core cloud services (EC2, S3, RDS, Lambda), security IAM, VPC networking, and cloud economics.',
-        skills: ['AWS Cloud', 'Serverless', 'S3 & Storage', 'Cloud Architecture']
+          'Competed in a quiz on the latest updates in Computer Science and Information Technology among lakhs of students.',
+        skills: ['Technology Trends', 'Cloud Architecture', 'Innovation']
       },
       {
         id: 'meta-frontend',
-        title: 'Meta Front-End Developer Specialization',
-        issuer: 'Meta (via Coursera)',
-        date: '2024',
-        credentialId: 'META-FED-CERT-7729',
+        title: 'GATE Carrer Guidance',
+        issuer: 'GeeksforGeeks',
+        date: '2025',
+        credentialId: 'GATE-CAREER-GUIDANCE-2025',
         credentialUrl: 'https://coursera.org',
-        type: 'Professional Specialization',
+        type: 'GATE Guidance',
         description:
-          'Rigorous 9-course curriculum in modern React, JavaScript ES6+, UX principles, responsive UI systems, and unit testing.',
-        skills: ['React 18/19', 'Advanced JavaScript', 'Tailwind CSS', 'Testing']
+          'Got guidance from experts of GeeksforGeeks on GATE prepation',
+        skills: ['GATE 2026 Preparation Guidance session']
       },
       {
         id: 'fcc-fullstack',
-        title: 'JavaScript Algorithms & Web Engineering',
-        issuer: 'freeCodeCamp',
-        date: '2023',
-        credentialId: 'FCC-JS-ALGO-300HR',
+        title: 'Fund My Crazy Grand Ideation Night',
+        issuer: 'Google * CampusCrew',
+        date: '2026',
+        credentialId: '',
         credentialUrl: 'https://www.freecodecamp.org',
-        type: '300 Hours Verified',
+        type: 'Google Gemini Fundings',
         description:
-          'Completed 300 hours of coursework, algorithmic labs, and 5 mandatory certification projects demonstrating production JavaScript mastery.',
-        skills: ['Modern JavaScript', 'Functional Programming', 'DOM Manipulation']
+          'Participated in the ideation night, where I presented my idea to the judges of Google Gemini.',
+        skills: ['Google Gemini AI', 'Problem Solving', 'Presentation Skills']
       },
       {
         id: 'postman-expert',
-        title: 'Postman API Fundamentals Student Expert',
-        issuer: 'Postman',
-        date: '2023',
-        credentialId: 'POSTMAN-API-STUDENT-EXPERT',
+        title: 'QuizOff 2026',
+        issuer: 'Unstop * CampusCrew',
+        date: '2026',
+        credentialId: 'QUIZOFF-2026-1092',
         credentialUrl: 'https://badgr.com',
-        type: 'Certified Student Expert',
+        type: 'Quiz Participation',
         description:
-          'Proficiency in testing RESTful endpoints, environment variables, authentication headers, script automation, and API contract design.',
-        skills: ['REST APIs', 'API Testing', 'Postman Collections', 'HTTP Protocols']
+          'Participated in the quiz, where I got to learn about the latest trends in Computer Science and Information Technology.',
+        skills: [' Quizzer', 'Computer Science Trends', 'Information Technology Trends']
       }
     ]
   },
   {
     id: 'ai-ml',
-    title: 'AI, Machine Learning & Data Science',
+    title: 'Claude',
     badge: 'Next-Gen Intelligence',
     icon: Brain,
     highlight: 'Applied AI & Models',
@@ -274,39 +287,39 @@ const CERTIFICATION_CATEGORIES = [
     certificates: [
       {
         id: 'dl-ai-ml',
-        title: 'Machine Learning Specialization',
-        issuer: 'DeepLearning.AI & Stanford Online',
-        date: '2024',
+        title: 'AI Fluency: Framework and Foundations',
+        issuer: 'Claude',
+        date: '2025',
         credentialId: 'DLAI-ML-STANFORD-9210',
         credentialUrl: 'https://www.deeplearning.ai/',
         type: 'Specialization Honor',
         description:
-          'Taught by Andrew Ng. Covered supervised learning (linear regression, SVMs, neural networks) and unsupervised learning (clustering, anomaly detection).',
-        skills: ['Supervised Learning', 'Neural Networks', 'Cost Optimization', 'PyTorch']
+          'Learned about AI frameworks and Foundations, Taught by claude.',
+        skills: ['Claude Ai','Foundations','Frameworks']
       },
       {
         id: 'google-genai',
-        title: 'Google Cloud Generative AI Fundamentals',
-        issuer: 'Google Cloud',
-        date: '2024',
+        title: 'Introduction to Subagents',
+        issuer: 'Claude',
+        date: '2025',
         credentialId: 'GCLOUD-GENAI-SKILL-441',
         credentialUrl: 'https://cloud.google.com/training',
         type: 'Skill Badge',
         description:
-          'Practical training on LLMs, attention mechanisms, transformer models, prompt framing, and responsible AI guardrails.',
-        skills: ['Large Language Models', 'Generative AI', 'Prompt Design', 'Google Cloud']
+          'Learned about Subagents and how to use them.',
+        skills: ['Subagents', 'Claude Ai']
       },
       {
         id: 'kaggle-champ',
-        title: 'Kaggle Python & Data Science Certified',
-        issuer: 'Kaggle',
-        date: '2023',
+        title: 'AI fluency for Students',
+        issuer: 'Claude',
+        date: '2025',
         credentialId: 'KAGGLE-PY-DS-CERT-832',
         credentialUrl: 'https://www.kaggle.com',
         type: 'Competency Certified',
         description:
-          'Completed hands-on coding tracks in Python data manipulation, Pandas, feature engineering, and predictive modeling.',
-        skills: ['Python', 'Pandas', 'NumPy', 'Data Analysis']
+          'Completed claude Fluency for Students.',
+        skills: ['Claude Ai']
       },
       {
         id: 'ai-prompt-eng',
@@ -500,6 +513,161 @@ export const CertificationsSection = ({ sectionRef }) => {
     setSelectedCert(null);
     setSelectedCategory(null);
   };
+
+  // Voice AI Global Event Handlers for Full Voice Control
+  useEffect(() => {
+    const handleVoiceOpenCert = (e) => {
+      const rawQuery = (e.detail?.query || '').toLowerCase().trim();
+      const shouldVerify = e.detail?.verify || false;
+      const indexReq = e.detail?.index;
+
+      if (sectionRef && sectionRef.current) {
+        sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // 1. If explicit certificate index was requested (e.g., 0 for first, 1 for second)
+      if (typeof indexReq === 'number' && indexReq >= 0) {
+        const currentCat = categories[activeIndex] || categories[0];
+        const cert = currentCat.certificates[indexReq] || currentCat.certificates[0];
+        if (cert) {
+          setSelectedCert(cert);
+          setSelectedCategory(currentCat);
+          if (shouldVerify && cert.credentialUrl) {
+            setTimeout(() => window.open(cert.credentialUrl, '_blank', 'noopener,noreferrer'), 600);
+          }
+          return;
+        }
+      }
+
+      if (!rawQuery) {
+        // Default: open first certificate of current active deck
+        const currentCat = categories[activeIndex] || categories[0];
+        const cert = currentCat.certificates[0];
+        if (cert) {
+          setSelectedCert(cert);
+          setSelectedCategory(currentCat);
+        }
+        return;
+      }
+
+      // 2. Check for ordinal keywords: "first", "1", "1st", "second", "2", etc.
+      const currentCat = categories[activeIndex] || categories[0];
+      if (['first', '1', '1st', 'one', 'this', 'specific', 'cert', 'certificate'].includes(rawQuery)) {
+        const cert = currentCat.certificates[0] || categories[0].certificates[0];
+        if (cert) {
+          setSelectedCert(cert);
+          setSelectedCategory(currentCat);
+          if (shouldVerify && cert.credentialUrl) {
+            setTimeout(() => window.open(cert.credentialUrl, '_blank', 'noopener,noreferrer'), 600);
+          }
+          return;
+        }
+      } else if (['second', '2', '2nd', 'two'].includes(rawQuery)) {
+        const cert = currentCat.certificates[1] || currentCat.certificates[0];
+        if (cert) {
+          setSelectedCert(cert);
+          setSelectedCategory(currentCat);
+          if (shouldVerify && cert.credentialUrl) {
+            setTimeout(() => window.open(cert.credentialUrl, '_blank', 'noopener,noreferrer'), 600);
+          }
+          return;
+        }
+      } else if (['third', '3', '3rd', 'three'].includes(rawQuery)) {
+        const cert = currentCat.certificates[2] || currentCat.certificates[0];
+        if (cert) {
+          setSelectedCert(cert);
+          setSelectedCategory(currentCat);
+          if (shouldVerify && cert.credentialUrl) {
+            setTimeout(() => window.open(cert.credentialUrl, '_blank', 'noopener,noreferrer'), 600);
+          }
+          return;
+        }
+      } else if (['fourth', '4', '4th', 'four', 'last'].includes(rawQuery)) {
+        const cert = currentCat.certificates[3] || currentCat.certificates[currentCat.certificates.length - 1];
+        if (cert) {
+          setSelectedCert(cert);
+          setSelectedCategory(currentCat);
+          if (shouldVerify && cert.credentialUrl) {
+            setTimeout(() => window.open(cert.credentialUrl, '_blank', 'noopener,noreferrer'), 600);
+          }
+          return;
+        }
+      }
+
+      // 3. Search across all categories and certificates using tokenized keyword matching
+      const tokens = rawQuery.split(/\s+/).filter(t => t.length > 2);
+
+      for (let catIdx = 0; catIdx < categories.length; catIdx++) {
+        const cat = categories[catIdx];
+        const cert = cat.certificates.find((c) => {
+          const t = c.title.toLowerCase();
+          const id = c.id.toLowerCase();
+          const issuer = (c.issuer || '').toLowerCase();
+          const cred = (c.credentialId || '').toLowerCase();
+          const haystack = `${t} ${id} ${issuer} ${cred}`;
+
+          // Direct inclusion
+          if (haystack.includes(rawQuery) || rawQuery.includes(t) || rawQuery.includes(id)) {
+            return true;
+          }
+
+          // Token overlap check
+          if (tokens.length > 0 && tokens.some(tok => haystack.includes(tok))) {
+            return true;
+          }
+
+          return false;
+        });
+
+        if (cert) {
+          setActiveIndex(catIdx);
+          setSelectedCert(cert);
+          setSelectedCategory(cat);
+          if (shouldVerify && cert.credentialUrl) {
+            setTimeout(() => {
+              window.open(cert.credentialUrl, '_blank', 'noopener,noreferrer');
+            }, 600);
+          }
+          return;
+        }
+      }
+
+      // 4. Fallback if no exact cert matched: open first cert in category
+      if (currentCat && currentCat.certificates[0]) {
+        setSelectedCert(currentCat.certificates[0]);
+        setSelectedCategory(currentCat);
+      }
+    };
+
+    const handleVoiceVerify = () => {
+      if (selectedCert && selectedCert.credentialUrl) {
+        window.open(selectedCert.credentialUrl, '_blank', 'noopener,noreferrer');
+      }
+    };
+
+    const handleVoiceClose = () => {
+      setSelectedCert(null);
+      setSelectedCategory(null);
+    };
+
+    const handleVoiceCopy = () => {
+      if (selectedCert) {
+        navigator.clipboard.writeText(selectedCert.credentialId);
+      }
+    };
+
+    window.addEventListener('voice-open-certificate', handleVoiceOpenCert);
+    window.addEventListener('voice-verify-certificate', handleVoiceVerify);
+    window.addEventListener('voice-close-certificate', handleVoiceClose);
+    window.addEventListener('voice-copy-credential', handleVoiceCopy);
+
+    return () => {
+      window.removeEventListener('voice-open-certificate', handleVoiceOpenCert);
+      window.removeEventListener('voice-verify-certificate', handleVoiceVerify);
+      window.removeEventListener('voice-close-certificate', handleVoiceClose);
+      window.removeEventListener('voice-copy-credential', handleVoiceCopy);
+    };
+  }, [categories, selectedCert, sectionRef]);
 
   const activeCategory = categories[activeIndex];
 
